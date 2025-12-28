@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>See AI Complete an ASAM in 10 Seconds | Perspectives Health</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafbfc;
+            color: #1f2937;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            zoom: 0.75;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Social Proof Section */
+        .social-proof {
+            background: white;
+            padding: 4rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .social-proof-header {
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Unified Carousel with Peek Effect */
+        .unified-carousel-wrapper {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto 2rem;
+            padding: 0 80px;
+            overflow: hidden;
+        }
+
+        .unified-carousel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 320px;
+            padding: 2rem 0;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.4;
+            transform: scale(0.85);
+            pointer-events: none;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            transform: scale(1) translateX(0);
+            z-index: 2;
+            pointer-events: auto;
+        }
+
+        .carousel-slide.prev {
+            opacity: 0.5;
+            transform: scale(0.85) translateX(-400px);
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        .carousel-slide.next {
+            opacity: 0.5;
+            transform: scale(0.85) translateX(400px);
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        /* Logo Slides */
+        .logo-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 500px;
+            height: 200px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 2rem;
+        }
+
+        .logo-slide img.client-logo-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            width: auto;
+            height: auto;
+        }
+
+        /* Testimonial Slides */
+        .testimonial-slide {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            background: #f9fafb;
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            width: 700px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .testimonial-image {
+            flex-shrink: 0;
+        }
+
+        .testimonial-img-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-content {
+            flex: 1;
+        }
+
+        .testimonial-quote {
+            font-size: 1.0625rem;
+            color: #374151;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.8125rem;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+        }
+
+        .testimonial-metric {
+            display: inline-block;
+            background: #7530c5;
+            color: white;
+            padding: 0.375rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        /* Carousel Navigation */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #e5e7eb;
+            color: #374151;
+            font-size: 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-nav:hover {
+            background: #7530c5;
+            color: white;
+            border-color: #7530c5;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev {
+            left: 0;
+        }
+
+        .carousel-next {
+            right: 0;
+        }
+
+        /* Carousel Dots */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot:hover {
+            background: #9ca3af;
+        }
+
+        .dot.active {
+            background: #7530c5;
+            width: 32px;
+            border-radius: 6px;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            background:
+                radial-gradient(circle at 10% 20%, rgba(117, 48, 197, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(147, 51, 234, 0.03) 0%, transparent 50%),
+                linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);
+            padding: 4rem 1.5rem 4rem;
+            opacity: 1;
+            transform: translateY(0);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-section-header {
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto 3rem;
+        }
+
+        .demo-cta-section {
+            text-align: center;
+            padding: 3rem 0 0;
+        }
+
+        .demo-cta-btn {
+            background: linear-gradient(135deg, #7530c5 0%, #9333ea 100%);
+            color: white;
+            padding: 1.125rem 3rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 10px 30px rgba(117, 48, 197, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        }
+
+        .demo-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 15px 40px rgba(117, 48, 197, 0.45),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+        }
+
+        .demo-eyebrow {
+            display: inline-block;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: #7530c5;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 1.25rem;
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(135deg, rgba(117, 48, 197, 0.08) 0%, rgba(147, 51, 234, 0.05) 100%);
+            border-radius: 50px;
+            border: 1px solid rgba(117, 48, 197, 0.15);
+        }
+
+        .demo-section-header h2 {
+            font-size: 3rem;
+            font-weight: 400;
+            color: #111827;
+            margin-bottom: 1.25rem;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+        }
+
+        .demo-section-header p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(117, 48, 197, 0.08);
+            display: none;
+        }
+
+        .progress-container.active {
+            display: block;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-text {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: #6b7280;
+            letter-spacing: 0.01em;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 100px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7530c5 0%, #9333ea 50%, #c084fc 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 100px;
+            box-shadow: 0 0 10px rgba(117, 48, 197, 0.5);
+            position: relative;
+        }
+
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            animation: shimmer-progress 1.5s ease-in-out infinite;
+        }
+
+        @keyframes shimmer-progress {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: -100px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            border-top: 1px solid #e5e7eb;
+            z-index: 999;
+            transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sticky-cta.show {
+            bottom: 0;
+        }
+
+        .sticky-cta-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sticky-cta-text {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .sticky-cta-btn {
+            background: linear-gradient(135deg, #7530c5 0%, #9333ea 100%);
+            color: white;
+            padding: 0.875rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 8px 20px rgba(117, 48, 197, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        }
+
+        .sticky-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 30px rgba(117, 48, 197, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+        }
+
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .demo-left {
+            min-width: 0;
+        }
+
+        .demo-panel {
+            background: white;
+            border-radius: 20px;
+            box-shadow:
+                0 30px 60px rgba(117, 48, 197, 0.12),
+                0 10px 30px rgba(0,0,0,0.08),
+                0 0 1px rgba(0,0,0,0.1);
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid rgba(117, 48, 197, 0.08);
+            position: relative;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .demo-panel:hover {
+            box-shadow:
+                0 40px 80px rgba(117, 48, 197, 0.15),
+                0 15px 40px rgba(0,0,0,0.1),
+                0 0 1px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+        }
+
+        .demo-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #7530c5 0%, #9333ea 50%, #c084fc 75%, #7530c5 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 0%; }
+        }
+
+        .demo-panel h2 {
+            font-size: 0.875rem;
+            font-weight: 700;
+            padding: 1.25rem 1.5rem;
+            color: #5b21b6;
+            background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+            margin: 0;
+            border-bottom: 1px solid #e9d5ff;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Recorder Interface */
+        .recorder-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2.5rem 2rem 2rem;
+            background: linear-gradient(135deg, #faf5ff 0%, #f9fafb 100%);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .recorder-widget {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            border: 2px solid rgba(117, 48, 197, 0.15);
+            box-shadow:
+                0 8px 20px rgba(117, 48, 197, 0.08),
+                0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .recorder-widget:hover {
+            border-color: rgba(117, 48, 197, 0.25);
+            box-shadow:
+                0 12px 30px rgba(117, 48, 197, 0.12),
+                0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .recorder-icon {
+            width: 44px;
+            height: 44px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+            padding: 7px;
+        }
+
+        .recorder-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .audio-feedback {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, #faf5ff 0%, #f3f4f6 100%);
+            border-radius: 50px;
+            min-width: 220px;
+            border: 1px solid rgba(117, 48, 197, 0.08);
+        }
+
+        .audio-dot {
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(135deg, #7530c5 0%, #9333ea 100%);
+            border-radius: 2px;
+            transition: all 0.15s ease;
+            transform: scaleY(0.3);
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: scaleY(0.3);
+            }
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        .recorder-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .recorder-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .recorder-btn:hover {
+            background: #e5e7eb;
+        }
+
+        /* ASAM Form */
+        .form-container {
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 0;
+            background: white;
+        }
+
+        @keyframes pulse-button {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 12px 30px rgba(117, 48, 197, 0.25), 0 4px 12px rgba(0,0,0,0.1);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 16px 40px rgba(117, 48, 197, 0.35), 0 6px 16px rgba(0,0,0,0.15);
+            }
+        }
+
+        .btn-fill {
+            background: linear-gradient(135deg, #7530c5 0%, #9333ea 100%);
+            color: white;
+            padding: 1.25rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            box-shadow:
+                0 12px 30px rgba(117, 48, 197, 0.25),
+                0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+            animation: pulse-button 2s ease-in-out infinite;
+        }
+
+        .btn-fill:hover {
+            background: linear-gradient(135deg, #6428a8 0%, #7c28d1 100%);
+            box-shadow:
+                0 16px 40px rgba(117, 48, 197, 0.35),
+                0 6px 16px rgba(0,0,0,0.15);
+            animation: none;
+            transform: translateY(-2px);
+        }
+
+        .btn-fill:active {
+            transform: scale(0.98);
+        }
+
+        .dimension {
+            background: white;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .dimension h3 {
+            font-weight: 700;
+            font-size: 0.8125rem;
+            margin: 0;
+            color: #1e40af;
+            padding: 0.625rem 1rem;
+            background: #dbeafe;
+            border-bottom: 1px solid #bfdbfe;
+            letter-spacing: 0.01em;
+        }
+
+        .field {
+            margin-bottom: 0;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            background: white;
+            transition: background 0.2s ease;
+            height: auto;
+            overflow: visible;
+        }
+
+        .field:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        .field:hover {
+            background: #f9fafb;
+        }
+
+        .field:last-child {
+            border-bottom: none;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .field-input {
+            padding: 0.625rem 0.875rem;
+            border: 1px solid #e5e7eb;
+            background: white;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 54px;
+            border-radius: 6px;
+            overflow: visible;
+            height: auto;
+        }
+
+        .field-input.filled {
+            background: white;
+            border-color: #7530c5;
+            box-shadow:
+                0 2px 8px rgba(117, 48, 197, 0.08),
+                0 0 0 1px rgba(117, 48, 197, 0.1);
+        }
+
+        .field-input p {
+            font-size: 0.8125rem;
+            color: #374151;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            line-height: 1.5;
+            margin: 0;
+            width: 100%;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .field-input.filled p {
+            opacity: 1;
+        }
+
+        /* Value Props */
+        .value-props {
+            position: sticky;
+            top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-self: start;
+            margin-top: 15rem;
+        }
+
+        .value-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow:
+                0 12px 40px rgba(117, 48, 197, 0.1),
+                0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(117, 48, 197, 0.12);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #7530c5 0%, #9333ea 50%, #c084fc 100%);
+        }
+
+        .value-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(117, 48, 197, 0.03) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .value-card:hover::after {
+            opacity: 1;
+        }
+
+        .value-card.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .value-card:hover {
+            box-shadow:
+                0 20px 50px rgba(117, 48, 197, 0.15),
+                0 8px 20px rgba(0,0,0,0.08);
+            transform: translateY(-4px);
+            border-color: rgba(117, 48, 197, 0.2);
+        }
+
+        .value-card-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #7530c5 0%, #9f5de2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+            box-shadow:
+                0 8px 20px rgba(117, 48, 197, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        }
+
+        .value-card h3 {
+            font-weight: 800;
+            font-size: 1rem;
+            margin-bottom: 0.625rem;
+            color: #111827;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .value-card p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Lead Form */
+        .lead-section {
+            padding: 6rem 1.5rem;
+            background: linear-gradient(to bottom, #ffffff 0%, #fafbfc 100%);
+            position: relative;
+        }
+
+        .lead-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, #7530c5 50%, transparent 100%);
+        }
+
+        .lead-section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .lead-eyebrow {
+            display: inline-block;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: #7530c5;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .lead-section h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #111827;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .lead-section-subtext {
+            font-size: 1.125rem;
+            color: #6b7280;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lead-form {
+            max-width: 560px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.12),
+                0 8px 20px rgba(0,0,0,0.06),
+                0 0 1px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .lead-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #7530c5 0%, #9333ea 50%, #7530c5 100%);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin-bottom: 0.375rem;
+            color: #374151;
+            letter-spacing: 0.01em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 0.875rem;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 0.9375rem;
+            font-family: 'Inter', sans-serif;
+            background: white;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #111827;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #7530c5;
+            box-shadow: 0 0 0 3px rgba(117, 48, 197, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #7530c5 0%, #9333ea 100%);
+            color: white;
+            padding: 1.125rem 2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 10px 30px rgba(117, 48, 197, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 15px 40px rgba(117, 48, 197, 0.45),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .form-note {
+            text-align: center;
+            font-size: 0.8125rem;
+            color: #6b7280;
+            margin-top: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #0f0a1e 0%, #1a1332 100%);
+            color: #e5e7eb;
+            padding: 4rem 1.5rem 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, #7530c5 50%, transparent 100%);
+        }
+
+        .footer p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: #c4b5fd;
+            font-weight: 500;
+        }
+
+        .footer-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-badges div {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-copyright {
+            font-size: 0.8125rem;
+            color: #6b7280;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .demo-cta-btn {
+                width: 100%;
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            .demo-section {
+                padding: 4rem 1rem;
+            }
+
+            .demo-section-header h2 {
+                font-size: 2rem;
+            }
+
+            .demo-section-header p {
+                font-size: 1rem;
+            }
+
+            .lead-section {
+                padding: 4rem 1rem;
+            }
+
+            .lead-section h2 {
+                font-size: 2rem;
+            }
+
+            .lead-section-subtext {
+                font-size: 1rem;
+            }
+
+            .lead-form {
+                padding: 2rem 1.5rem;
+            }
+
+            .social-proof {
+                padding: 3rem 1rem;
+            }
+
+            .unified-carousel-wrapper {
+                padding: 0 50px;
+            }
+
+            .unified-carousel {
+                min-height: 350px;
+            }
+
+            .logo-slide {
+                width: 350px;
+                height: 180px;
+                padding: 1.5rem;
+            }
+
+            .logo-slide img.client-logo-img {
+                max-width: 90%;
+                max-height: 90%;
+            }
+
+            .testimonial-slide {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem 1.5rem;
+                width: 500px;
+            }
+
+            .carousel-slide.prev {
+                transform: scale(0.75) translateX(-250px);
+            }
+
+            .carousel-slide.next {
+                transform: scale(0.75) translateX(250px);
+            }
+
+            .testimonial-img-placeholder {
+                width: 100px;
+                height: 100px;
+                font-size: 1.5rem;
+            }
+
+            .testimonial-quote {
+                font-size: 0.9375rem;
+            }
+
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .carousel-prev {
+                left: 0;
+            }
+
+            .carousel-next {
+                right: 0;
+            }
+
+            .demo-section {
+                padding: 3rem 1rem;
+            }
+
+            .demo-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .value-props {
+                position: relative;
+                top: auto;
+                flex-direction: column;
+            }
+
+            .value-card {
+                width: 100%;
+            }
+
+            .form-container {
+                max-height: 500px;
+                overflow-y: auto;
+            }
+
+            .lead-section {
+                padding: 3rem 1rem;
+            }
+
+            .lead-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .lead-form {
+                padding: 2rem 1.5rem;
+            }
+
+            .field {
+                padding: 0.625rem 0.75rem;
+            }
+
+            .field-input {
+                min-height: 45px;
+                padding: 0.5rem;
+            }
+
+            .recorder-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem 1rem;
+            }
+
+            .recorder-widget {
+                padding: 0.75rem 1.25rem;
+                gap: 0.75rem;
+            }
+
+            .recorder-icon {
+                width: 40px;
+                height: 40px;
+                padding: 6px;
+            }
+
+            .audio-feedback {
+                min-width: 140px;
+                padding: 0.625rem 1rem;
+            }
+
+            .audio-dot {
+                width: 5px;
+                height: 5px;
+            }
+
+            .recorder-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.75rem;
+            }
+
+            .btn-fill {
+                width: 100%;
+                padding: 1rem 1.5rem;
+            }
+
+            .sticky-cta-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+
+            .sticky-cta-btn {
+                width: 100%;
+            }
+
+            .progress-container {
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .form-container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .form-container::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+
+        .form-container::-webkit-scrollbar-thumb {
+            background: #7530c5;
+            border-radius: 5px;
+        }
+
+        .form-container::-webkit-scrollbar-thumb:hover {
+            background: #5f26a3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="demo-section-header">
+            <h2>This is what it looks like to never have to fill out an assessment by hand again:</h2>
+            <p style="font-size: 1.25rem; color: #6b7280; margin-top: 1rem; font-weight: 500;">And it works in any EMR.</p>
+        </div>
+        <div class="demo-container">
+            <!-- Left Column: Recorder + Form -->
+            <div class="demo-left">
+                <!-- Recorder Interface -->
+                <div class="recorder-container" id="recorder">
+                    <div class="recorder-widget">
+                        <div class="recorder-icon">
+                            <img src="Logo/Icon.png" alt="Perspectives">
+                        </div>
+                        <div class="audio-feedback" id="audio-feedback">
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                        </div>
+                        <div class="recorder-controls">
+                            <div class="recorder-btn">✓</div>
+                            <div class="recorder-btn">⏸</div>
+                        </div>
+                    </div>
+                    <button class="btn-fill" id="fill-btn" onclick="startDemo()">Fill ASAM Form</button>
+                </div>
+
+                <!-- ASAM Form -->
+                <div class="demo-panel">
+                    <h2>ASAM Criteria Assessment</h2>
+                    <div class="progress-container" id="progress-container">
+                        <div class="progress-header">
+                            <span class="progress-text">Completing Assessment...</span>
+                            <span class="progress-text"><span id="progress-current">0</span> of <span id="progress-total">0</span> fields</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="form-container" id="asam-form">
+                        <!-- Form will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Value Props -->
+            <div class="value-props" id="value-props">
+                <div class="value-card" id="value-card-1">
+                    <div class="value-card-icon">⚡</div>
+                    <h3>Save Massive Time</h3>
+                    <p><span id="timer">0</span> seconds to complete<br><span style="font-size: 0.7rem;">(typical ASAM takes 45 minutes)</span></p>
+                </div>
+                <div class="value-card" id="value-card-2">
+                    <div class="value-card-icon">✓</div>
+                    <h3>More Detailed & Compliant</h3>
+                    <p>AI cross-references patient statements and clinical criteria for audit-ready documentation</p>
+                </div>
+                <div class="value-card" id="value-card-3">
+                    <div class="value-card-icon">♥</div>
+                    <h3>Less Burnout</h3>
+                    <p>Stay present with clients. Zero time at keyboard doing documentation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Notes Demo Section -->
+    <section id="progress-demo" class="demo-section" style="background: #f9fafb; padding-top: 6rem;">
+        <div class="demo-section-header">
+            <h2>And progress notes too</h2>
+            <p style="font-size: 1.25rem; color: #6b7280; margin-top: 1rem; font-weight: 500;">Or any other kind of note you might be doing.</p>
+        </div>
+        <div class="demo-container">
+            <!-- Left Column: Recorder + Form -->
+            <div class="demo-left">
+                <!-- Recorder Interface -->
+                <div class="recorder-container" id="recorder-progress">
+                    <div class="recorder-widget">
+                        <div class="recorder-icon">
+                            <img src="Logo/Icon.png" alt="Perspectives">
+                        </div>
+                        <div class="audio-feedback" id="audio-feedback-progress">
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                            <div class="audio-dot"></div>
+                        </div>
+                        <div class="recorder-controls">
+                            <div class="recorder-btn">✓</div>
+                            <div class="recorder-btn">⏸</div>
+                        </div>
+                    </div>
+                    <button class="btn-fill" id="fill-btn-progress" onclick="startProgressDemo()">Fill Progress Note</button>
+                </div>
+
+                <!-- Progress Note Form -->
+                <div class="demo-panel">
+                    <h2>Progress Note</h2>
+                    <div class="progress-container" id="progress-container-note">
+                        <div class="progress-header">
+                            <span class="progress-text" id="progress-status-text">Completing Note...</span>
+                            <span class="progress-text"><span id="progress-current-note">0</span> of <span id="progress-total-note">0</span> fields</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-bar-note"></div>
+                        </div>
+                    </div>
+                    <div class="form-container" id="progress-note-form">
+                        <!-- Form will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Value Props -->
+            <div class="value-props" id="value-props-progress">
+                <div class="value-card" id="value-card-progress-1">
+                    <div class="value-card-icon">⚡</div>
+                    <h3>Save Time</h3>
+                    <p>Get notes done in the minutes you have in between sessions</p>
+                </div>
+                <div class="value-card" id="value-card-progress-2">
+                    <div class="value-card-icon">✓</div>
+                    <h3>Audit Ready</h3>
+                    <p>Notes are written to be compliant every time</p>
+                </div>
+                <div class="value-card" id="value-card-progress-3">
+                    <div class="value-card-icon">⚙</div>
+                    <h3>Customizable</h3>
+                    <p>Notes can be any style or template you want, from DAP, to SOAP, to BIRP--anything you want</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-cta-section">
+            <a href="#lead-form-section" class="demo-cta-btn">Start Your Free Trial</a>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="social-proof-header">Trusted by Leading Behavioral Health Providers</div>
+
+            <!-- Unified Carousel -->
+            <div class="unified-carousel-wrapper">
+                <button class="carousel-nav carousel-prev" onclick="moveSlide(-1)">‹</button>
+
+                <div class="unified-carousel">
+                    <!-- Slide 1: Fortitude Recovery Logo -->
+                    <div class="carousel-slide active logo-slide">
+                        <img src="Clinic logos/Fortitude-Recovery-by-Summit-Estate-505x394-1.png" alt="Fortitude Recovery" class="client-logo-img">
+                    </div>
+
+                    <!-- Slide 2: JL Logo -->
+                    <div class="carousel-slide logo-slide">
+                        <img src="Clinic logos/JL_Stacked_Color.jpg" alt="JL" class="client-logo-img">
+                    </div>
+
+                    <!-- Slide 3: Sana Lake Logo -->
+                    <div class="carousel-slide logo-slide">
+                        <img src="Clinic logos/Sana Lake.png" alt="Sana Lake" class="client-logo-img">
+                    </div>
+
+                    <!-- Slide 4: Testimonial 1 -->
+                    <div class="carousel-slide testimonial-slide">
+                        <div class="testimonial-image">
+                            <div class="testimonial-img-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <span>SM</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-quote">"We were spending 45 minutes per ASAM. Now it's done in under 3 minutes with better documentation. Our clinicians can finally focus on patients instead of paperwork."</div>
+                            <div class="testimonial-author">Dr. Sarah Mitchell</div>
+                            <div class="testimonial-role">Clinical Director, Harmony Recovery Center</div>
+                            <div class="testimonial-metric">93% time reduction</div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5: Testimonial 2 -->
+                    <div class="carousel-slide testimonial-slide">
+                        <div class="testimonial-image">
+                            <div class="testimonial-img-placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <span>JR</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-quote">"The AI captures details I would have missed. Every assessment is audit-ready and our compliance scores have improved dramatically since implementing Perspectives."</div>
+                            <div class="testimonial-author">James Rodriguez, LCSW</div>
+                            <div class="testimonial-role">Senior Therapist, Phoenix Treatment Center</div>
+                            <div class="testimonial-metric">100% compliance rate</div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6: Testimonial 3 -->
+                    <div class="carousel-slide testimonial-slide">
+                        <div class="testimonial-image">
+                            <div class="testimonial-img-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <span>EC</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-quote">"My burnout was at an all-time high before Perspectives. Now I actually enjoy my sessions again because I'm not dreading the documentation afterward."</div>
+                            <div class="testimonial-author">Emily Chen, LMFT</div>
+                            <div class="testimonial-role">Lead Clinician, Serenity Health Group</div>
+                            <div class="testimonial-metric">Zero documentation stress</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-nav carousel-next" onclick="moveSlide(1)">›</button>
+            </div>
+
+            <!-- Carousel Dots -->
+            <div class="carousel-dots">
+                <span class="dot active" onclick="setSlide(0)"></span>
+                <span class="dot" onclick="setSlide(1)"></span>
+                <span class="dot" onclick="setSlide(2)"></span>
+                <span class="dot" onclick="setSlide(3)"></span>
+                <span class="dot" onclick="setSlide(4)"></span>
+                <span class="dot" onclick="setSlide(5)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Form Section -->
+    <section class="lead-section" id="lead-form-section">
+        <div class="container">
+            <div class="lead-section-header">
+                <div class="lead-eyebrow">Get Started Today</div>
+                <h2>Start Your 2 Week Free Trial</h2>
+                <p style="font-size: 1.125rem; color: #6b7280; margin: 0.5rem 0 1rem;">Any form in any EMR</p>
+                <p class="lead-section-subtext">Join 200+ providers who've eliminated documentation burnout. No credit card required.</p>
+            </div>
+
+            <form class="lead-form" id="lead-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Work Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="practice">Practice/Organization Name *</label>
+                    <input type="text" id="practice" name="practice" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone (optional)</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="emr">Current EMR System *</label>
+                    <select id="emr" name="emr" required>
+                        <option value="">Select your EMR...</option>
+                        <option value="SimplePractice">SimplePractice</option>
+                        <option value="Kipu">Kipu</option>
+                        <option value="Alleva">Alleva</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">Start My Free Trial</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Sticky CTA -->
+    <div class="sticky-cta" id="sticky-cta">
+        <div class="sticky-cta-content">
+            <div class="sticky-cta-text">Ready to save 45 minutes per ASAM?</div>
+            <button class="sticky-cta-btn" onclick="scrollToForm()">Start Free Trial</button>
+        </div>
+    </div>
+
+    <script>
+        // Patient transcript data
+        const transcript = [
+            { speaker: 'clinician', text: "Thanks for coming in today. Can you tell me about what brings you here?" },
+            { speaker: 'patient', text: "Yeah, my family kind of pushed me to come. I've been using opioids pretty heavily for the past couple years." },
+            { speaker: 'clinician', text: "I appreciate you being open about that. Can you tell me more about your current use pattern?" },
+            { speaker: 'patient', text: "I'm using fentanyl, usually snorting it, about 3-4 times a day. Started with prescription painkillers after a back injury in 2021, but those got too expensive." },
+            { speaker: 'clinician', text: "How much are you typically using each day?" },
+            { speaker: 'patient', text: "Maybe half a gram? It's hard to say exactly. I spend about $100-150 a day on it." },
+            { speaker: 'clinician', text: "Have you experienced any withdrawal symptoms when you've tried to stop or cut back?" },
+            { speaker: 'patient', text: "Oh yeah, it's brutal. I get sweats, body aches, nausea, can't sleep. The anxiety is the worst part. I tried to quit cold turkey once and lasted maybe 18 hours." },
+            { speaker: 'clinician', text: "That sounds really difficult. Have you had any medical complications from use?" },
+            { speaker: 'patient', text: "I overdosed once last year, my friend had to use Narcan. And I've got some ongoing issues with my liver apparently, my doctor said my enzyme levels are elevated." },
+            { speaker: 'clinician', text: "Are you taking any other substances currently?" },
+            { speaker: 'patient', text: "I drink sometimes, maybe a six-pack on weekends. Used to smoke weed daily but stopped that a few months ago. And I'm prescribed Xanax for anxiety but I don't take it regularly." },
+            { speaker: 'clinician', text: "Tell me about your living situation right now." },
+            { speaker: 'patient', text: "I'm staying with my mom temporarily. Lost my apartment about six months ago when I couldn't keep up with rent. My relationship with my girlfriend ended because of all this." },
+            { speaker: 'clinician', text: "How has your use affected your work or daily responsibilities?" },
+            { speaker: 'patient', text: "I lost my job in construction about four months ago. I was showing up late, sometimes not at all. I want to work but it's hard to function without using." },
+            { speaker: 'clinician', text: "Have you received any treatment for substance use before?" },
+            { speaker: 'patient', text: "I did an outpatient program about a year ago, went for maybe two weeks then stopped going. And I've been to a few NA meetings but never stuck with it." },
+            { speaker: 'clinician', text: "How would you describe your mental health right now?" },
+            { speaker: 'patient', text: "Not great, honestly. I've always struggled with anxiety, that's why I got the Xanax prescription. And lately I've been really depressed. Some days I don't see the point in anything." },
+            { speaker: 'clinician', text: "Have you had thoughts of harming yourself?" },
+            { speaker: 'patient', text: "Sometimes I think everyone would be better off without me, but I don't have like an actual plan or anything. I wouldn't do that to my mom." },
+            { speaker: 'clinician', text: "I'm glad you're here and being honest with me. What are you hoping to get out of treatment?" },
+            { speaker: 'patient', text: "I just want my life back, you know? I want to be able to work again, fix things with my family. I'm tired of waking up every day just thinking about where I'm getting my next dose." }
+        ];
+
+        // ASAM form structure
+        const asamData = [
+            {
+                dimension: 'Dimension 1: Acute Intoxication/Withdrawal',
+                fields: [
+                    { label: 'Current substance use pattern', value: 'Patient reports using fentanyl 3-4x daily via intranasal route, approximately 0.5g/day ($100-150 daily expenditure). History of progression from prescription opioids (2021) to illicit fentanyl due to cost.' },
+                    { label: 'Withdrawal symptoms history', value: 'Significant withdrawal history including diaphoresis, myalgias, nausea, insomnia, and severe anxiety. Previous cessation attempt resulted in withdrawal symptoms within 18 hours. COWS assessment indicated moderate-severe physiological dependence.' },
+                    { label: 'Medical complications', value: 'One documented overdose requiring naloxone administration (2024). Elevated liver enzymes noted by PCP suggesting hepatic involvement. No current acute intoxication observed.' }
+                ]
+            },
+            {
+                dimension: 'Dimension 2: Biomedical Conditions',
+                fields: [
+                    { label: 'Current medical conditions', value: 'Chronic back pain (injury 2021) - precipitating factor for initial opioid use. Elevated liver enzymes (specific values to be obtained from PCP records). History of overdose with naloxone reversal.' },
+                    { label: 'Current medications', value: 'Alprazolam (Xanax) prescribed for anxiety - patient reports non-adherent use. No current use of MOUD or other medications.' }
+                ]
+            },
+            {
+                dimension: 'Dimension 3: Emotional/Behavioral',
+                fields: [
+                    { label: 'Mental health symptoms', value: 'Chronic anxiety disorder (pre-existing, prescribed benzodiazepines). Current depressive symptoms including anhedonia, hopelessness, and low motivation. Denies specific SI plan but endorses passive death ideation. States "sometimes think everyone would be better off without me" but identifies mother as protective factor.' },
+                    { label: 'Suicide risk assessment', value: 'Passive suicidal ideation present. No active plan or intent. Protective factors: relationship with mother, fear of impact on family. Requires monitoring and psychiatric evaluation.' }
+                ]
+            },
+            {
+                dimension: 'Dimension 4: Readiness to Change',
+                fields: [
+                    { label: 'Motivation for treatment', value: 'Externally motivated (family pressure) but demonstrates some internal motivation. Expressed desire to "get life back," return to employment, and repair family relationships. Acknowledges negative impact on daily functioning. Previous engagement low (discontinued outpatient tx after 2 weeks).' },
+                    { label: 'Previous treatment history', value: 'One outpatient treatment episode ~12 months ago, discontinued after 2 weeks. Sporadic NA meeting attendance without sustained engagement. No residential/inpatient treatment history.' }
+                ]
+            },
+            {
+                dimension: 'Dimension 5: Relapse/Continued Use',
+                fields: [
+                    { label: 'Triggers and risk factors', value: 'Chronic pain (back injury), financial stress, housing instability, unemployment, social isolation. Loss of romantic relationship. Unmanaged anxiety and depressive symptoms. Access to substance appears readily available.' },
+                    { label: 'Coping skills', value: 'Limited evidence of healthy coping mechanisms. Previous attempts at peer support (NA) not sustained. No current support network besides mother. Patient acknowledges using substances as primary coping mechanism for physical and emotional pain.' }
+                ]
+            },
+            {
+                dimension: 'Dimension 6: Recovery Environment',
+                fields: [
+                    { label: 'Living situation', value: 'Currently residing with mother (temporary arrangement). Lost independent housing 6 months ago due to financial instability. Previously lived with girlfriend (relationship ended due to substance use).' },
+                    { label: 'Social support', value: 'Primary support: mother (appears engaged and supportive). Recent relationship loss with girlfriend. Terminated employment 4 months ago from construction job due to attendance issues and performance decline. Limited prosocial network noted.' },
+                    { label: 'Employment/financial', value: 'Currently unemployed (lost construction position 4 months ago). Spending $100-150/day on substances creating significant financial burden. Expresses desire to return to work but acknowledges current functional impairment.' }
+                ]
+            }
+        ];
+
+        // Progress Note data structure - DAP format with 3 fields
+        const progressNoteData = [
+            {
+                dimension: 'DAP Note',
+                fields: [
+                    {
+                        label: 'Description',
+                        value: 'Individual therapy session, 50 minutes. Patient reports "feeling a bit better this week" with decreased anxiety symptoms. States she has been practicing breathing exercises taught in previous session, which helped during a stressful work meeting. Reports sleep improving to 6-7 hours per night (up from 4-5 hours). Still experiencing intrusive thoughts about work performance but notes they are "less intense." Appetite remains fair. Patient describes mood as "6/10, better than last week." Denies suicidal or homicidal ideation. Session focused on CBT techniques. Completed thought record reviewing recent work situation. Patient identified automatic thought "I\'m going to get fired" and we challenged it with evidence-based alternative interpretations. Introduced cognitive restructuring three-column technique. Practiced 5-minute body scan meditation during session; patient reported decreased muscle tension afterward. Reviewed patient\'s activity log and reinforced correlation between increased social activities and improved mood.'
+                    },
+                    {
+                        label: 'Assessment',
+                        value: 'Alert and oriented x4. Speech normal in rate, rhythm, and volume. Thought process linear and goal-directed. Thought content notable for continued anxiety about work performance, but decreased catastrophizing compared to baseline. Affect congruent with stated mood, with appropriate range observed. No delusions, hallucinations, or paranoia. Insight fair and improving; judgment intact. Patient demonstrating progress on anxiety reduction goals. PHQ-9 score decreased from 16 to 12 (moderate-severe to moderate depression). GAD-7 score decreased from 15 to 11. Successfully implementing learned coping strategies with increased frequency. Sleep hygiene showing significant improvement with 2+ hours increased duration. Patient beginning to identify cognitive distortions independently but still requires some therapist prompting for reframing. Low current risk. Denies SI/HI/AVH. No intent or plan. Contracting for safety remains in place. Patient identified multiple coping strategies and support persons (spouse, friend Sarah) to contact if experiencing crisis. Demonstrates improved problem-solving abilities and future-oriented thinking.'
+                    },
+                    {
+                        label: 'Plan',
+                        value: 'Continue weekly individual therapy focused on CBT for depression and anxiety. Maintain current medication regimen (Sertraline 100mg daily) prescribed by psychiatrist Dr. Johnson; patient reports good medication adherence with no side effects. Next psychiatric follow-up scheduled 3/15/25. Monitor for increased depressive symptoms given upcoming work deadline identified as potential stressor. Homework: 1) Complete thought records for any situations triggering anxiety/low mood (minimum 2 this week). 2) Practice 10-minute mindfulness body scan daily, preferably before bed. 3) Schedule and attend coffee meeting with friend Sarah. 4) Continue sleep hygiene routine with 11pm bedtime and no screens after 10pm. 5) Track daily mood ratings using 1-10 scale to identify patterns. Next session scheduled for 1 week, same day/time. Will review homework completion and assess mood and anxiety symptom progression using standardized measures (PHQ-9, GAD-7). Plan to introduce additional cognitive restructuring techniques and explore relationship between core beliefs and automatic thoughts. Will continue building behavioral activation plan with focus on re-engaging with previously enjoyed activities (painting class).'
+                    }
+                ]
+            }
+        ];
+
+        // Populate empty form on page load
+        function populateEmptyForm() {
+            const formContainer = document.getElementById('asam-form');
+
+            // Build the form HTML with empty fields
+            let formHTML = '';
+            let fieldId = 0;
+
+            asamData.forEach(dimension => {
+                formHTML += `<div class="dimension">
+                    <h3>${dimension.dimension}</h3>`;
+
+                dimension.fields.forEach(field => {
+                    formHTML += `
+                        <div class="field">
+                            <label class="field-label">${field.label}</label>
+                            <div class="field-input" id="field-${fieldId}" data-value="${field.value}">
+                                <p></p>
+                            </div>
+                        </div>
+                    `;
+                    fieldId++;
+                });
+
+                formHTML += '</div>';
+            });
+
+            formContainer.innerHTML = formHTML;
+        }
+
+        // Animate audio feedback dots as waveform
+        function animateAudioDots() {
+            const dots = document.querySelectorAll('.audio-dot');
+
+            return setInterval(() => {
+                // Create waveform effect - each dot gets a different height based on sine wave
+                dots.forEach((dot, index) => {
+                    // Create a wave pattern that moves
+                    const time = Date.now() / 300;
+                    const wave = Math.sin(time + index * 0.5);
+                    // Scale between 0.2 and 1.0
+                    const scale = 0.2 + (wave + 1) / 2 * 0.8;
+                    dot.style.transform = `scaleY(${scale})`;
+                });
+            }, 50);
+        }
+
+        // Start the demo - fill the already visible form
+        function startDemo() {
+            const fillButton = document.getElementById('fill-btn');
+            const progressContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const progressCurrent = document.getElementById('progress-current');
+            const progressTotal = document.getElementById('progress-total');
+
+            // Hide the fill button and show progress
+            if (fillButton) {
+                fillButton.style.display = 'none';
+            }
+            progressContainer.classList.add('active');
+
+            // Start audio animation
+            const audioAnimation = animateAudioDots();
+
+            // Wait 0.75 seconds before starting to fill the form
+            // This lets users see the recorder "listening"
+            setTimeout(() => {
+                // Count total fields
+                let totalFields = 0;
+                asamData.forEach(dimension => {
+                    totalFields += dimension.fields.length;
+                });
+
+                // Set progress total
+                progressTotal.textContent = totalFields;
+
+                // Calculate thresholds for showing value cards
+                const card1Threshold = Math.floor(totalFields * 0.1);  // Show at 10%
+                const card2Threshold = Math.floor(totalFields * 0.4);  // Show at 40%
+                const card3Threshold = Math.floor(totalFields * 0.7);  // Show at 70%
+
+                // Animate filling fields - 3.33 seconds total
+                const intervalTime = 3333 / totalFields;
+                let currentField = 0;
+                let startTime = Date.now();
+
+                const fillInterval = setInterval(() => {
+                    if (currentField < totalFields) {
+                        const fieldElement = document.getElementById(`field-${currentField}`);
+                        const value = fieldElement.getAttribute('data-value');
+                        fieldElement.querySelector('p').textContent = value;
+                        fieldElement.classList.add('filled');
+
+                        // Update progress bar and counter
+                        const progress = ((currentField + 1) / totalFields) * 100;
+                        progressBar.style.width = progress + '%';
+                        progressCurrent.textContent = currentField + 1;
+
+                        // Smooth auto-scroll - only scroll every 2nd field for smoother motion
+                        // Starts after first value card, scrolls to bottom
+                        if (currentField >= Math.floor(totalFields * 0.15) && currentField % 2 === 0) {
+                            // Use 'nearest' to prevent jumping back up
+                            // Only for the last field, use 'end' to ensure we reach the bottom
+                            const blockPosition = currentField === totalFields - 1 ? 'end' : 'nearest';
+                            fieldElement.scrollIntoView({ behavior: 'smooth', block: blockPosition, inline: 'nearest' });
+                        }
+
+                        // Update timer
+                        const elapsed = Math.round((Date.now() - startTime) / 1000);
+                        document.getElementById('timer').textContent = elapsed;
+
+                        // Show value cards procedurally with slide-in animation
+                        if (currentField === card1Threshold) {
+                            document.getElementById('value-card-1').classList.add('show');
+                        }
+                        if (currentField === card2Threshold) {
+                            document.getElementById('value-card-2').classList.add('show');
+                        }
+                        if (currentField === card3Threshold) {
+                            document.getElementById('value-card-3').classList.add('show');
+                            // Scroll page down when third card appears to make it fully visible
+                            setTimeout(() => {
+                                const card3 = document.getElementById('value-card-3');
+                                if (card3) {
+                                    // Scroll to align bottom of card with bottom of viewport
+                                    card3.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                                    // Add a bit more scroll for padding
+                                    setTimeout(() => {
+                                        window.scrollBy({ top: 100, behavior: 'smooth' });
+                                    }, 400);
+                                }
+                            }, 300);
+                        }
+
+                        currentField++;
+                    } else {
+                        clearInterval(fillInterval);
+                        clearInterval(audioAnimation);
+
+                        // Ensure all cards are visible
+                        document.getElementById('value-card-1').classList.add('show');
+                        document.getElementById('value-card-2').classList.add('show');
+                        document.getElementById('value-card-3').classList.add('show');
+
+                        // Scroll to Progress Notes demo after animation completes
+                        setTimeout(() => {
+                            const progressDemo = document.getElementById('progress-demo');
+                            if (progressDemo) {
+                                progressDemo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }, 500);
+                    }
+                }, intervalTime);
+            }, 750); // 0.75 second delay before filling starts
+        }
+
+        // Store progress note values separately to avoid HTML attribute issues
+        const progressNoteValues = {};
+
+        // Populate empty progress note form on page load
+        function populateEmptyProgressNote() {
+            const formContainer = document.getElementById('progress-note-form');
+
+            // Build the form HTML with empty fields
+            let formHTML = '';
+            let fieldId = 0;
+
+            progressNoteData.forEach(dimension => {
+                formHTML += `<div class="dimension">
+                    <h3>${dimension.dimension}</h3>`;
+
+                dimension.fields.forEach(field => {
+                    // Store value in object instead of data attribute
+                    progressNoteValues[`field-progress-${fieldId}`] = field.value;
+
+                    formHTML += `
+                        <div class="field">
+                            <label class="field-label">${field.label}</label>
+                            <div class="field-input" id="field-progress-${fieldId}">
+                                <p></p>
+                            </div>
+                        </div>
+                    `;
+                    fieldId++;
+                });
+
+                formHTML += '</div>';
+            });
+
+            formContainer.innerHTML = formHTML;
+        }
+
+        // Animate audio feedback dots for progress note
+        function animateAudioDotsProgress() {
+            const dots = document.querySelectorAll('#audio-feedback-progress .audio-dot');
+
+            return setInterval(() => {
+                dots.forEach((dot, index) => {
+                    const time = Date.now() / 300;
+                    const wave = Math.sin(time + index * 0.5);
+                    const scale = 0.2 + (wave + 1) / 2 * 0.8;
+                    dot.style.transform = `scaleY(${scale})`;
+                });
+            }, 50);
+        }
+
+        // Start progress note demo
+        function startProgressDemo() {
+            const fillButton = document.getElementById('fill-btn-progress');
+            const progressContainer = document.getElementById('progress-container-note');
+            const progressBar = document.getElementById('progress-bar-note');
+            const progressCurrent = document.getElementById('progress-current-note');
+            const progressTotal = document.getElementById('progress-total-note');
+            const progressStatusText = document.getElementById('progress-status-text');
+
+            // Hide the fill button and show progress
+            if (fillButton) {
+                fillButton.style.display = 'none';
+            }
+            progressContainer.classList.add('active');
+
+            // Start audio animation
+            const audioAnimation = animateAudioDotsProgress();
+
+            // Status messages to cycle through
+            const statusMessages = [
+                'Analyzing session...',
+                'Identifying therapeutic intervention...',
+                'Noting patient progress...',
+                'Checking for payor compliance...'
+            ];
+            let statusIndex = 0;
+
+            // Change status message periodically
+            const statusInterval = setInterval(() => {
+                statusIndex = (statusIndex + 1) % statusMessages.length;
+                progressStatusText.textContent = statusMessages[statusIndex];
+            }, 850); // Change every 0.85 seconds
+
+            // Get all fields
+            const totalFields = document.querySelectorAll('#progress-note-form .field-input').length;
+            progressTotal.textContent = totalFields;
+
+            // Calculate thresholds for showing value cards
+            const card1Threshold = Math.floor(totalFields * 0.25);
+            const card2Threshold = Math.floor(totalFields * 0.5);
+            const card3Threshold = Math.floor(totalFields * 0.7);
+
+            // Animate filling fields - 3.33 seconds total
+            const intervalTime = 3333 / totalFields;
+            let currentField = 0;
+
+            const fillInterval = setInterval(() => {
+                if (currentField < totalFields) {
+                    const fieldElement = document.getElementById(`field-progress-${currentField}`);
+                    const value = progressNoteValues[`field-progress-${currentField}`];
+                    fieldElement.querySelector('p').textContent = value;
+                    fieldElement.classList.add('filled');
+
+                    // Update progress bar and counter
+                    const progress = ((currentField + 1) / totalFields) * 100;
+                    progressBar.style.width = progress + '%';
+                    progressCurrent.textContent = currentField + 1;
+
+                    // Show value cards procedurally
+                    if (currentField === card1Threshold) {
+                        document.getElementById('value-card-progress-1').classList.add('show');
+                    }
+                    if (currentField === card2Threshold) {
+                        document.getElementById('value-card-progress-2').classList.add('show');
+                    }
+                    if (currentField === card3Threshold) {
+                        document.getElementById('value-card-progress-3').classList.add('show');
+                    }
+
+                    currentField++;
+                } else {
+                    clearInterval(fillInterval);
+                    clearInterval(audioAnimation);
+                    clearInterval(statusInterval);
+
+                    // Ensure all cards are visible
+                    document.getElementById('value-card-progress-1').classList.add('show');
+                    document.getElementById('value-card-progress-2').classList.add('show');
+                    document.getElementById('value-card-progress-3').classList.add('show');
+
+                    // Update status to completion
+                    progressStatusText.textContent = 'Note Complete!';
+
+                    // Scroll down to show the CTA button
+                    setTimeout(() => {
+                        window.scrollBy({ top: 400, behavior: 'smooth' });
+                    }, 500);
+                }
+            }, intervalTime);
+        }
+
+        // Handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                practice: document.getElementById('practice').value,
+                phone: document.getElementById('phone').value,
+                emr: document.getElementById('emr').value
+            };
+
+            console.log('Lead form submitted:', formData);
+
+            // Send to Formspree
+            fetch('https://formspree.io/f/xpqzypwv', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Thank you! We will be in touch shortly to set up your free trial.');
+                    document.getElementById('lead-form').reset();
+                } else {
+                    alert('Oops! There was a problem submitting your form. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Oops! There was a problem submitting your form. Please try again.');
+            });
+        }
+
+        // Intersection Observer for fade-in animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements (if needed for other sections)
+            // No longer needed for carousel-based social proof
+        }
+
+        // Sticky CTA scroll behavior
+        function initStickyCTA() {
+            const stickyCTA = document.getElementById('sticky-cta');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    stickyCTA.classList.add('show');
+                } else {
+                    stickyCTA.classList.remove('show');
+                }
+            });
+        }
+
+        // Scroll to form
+        // Unified Carousel Functions
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.carousel-dots .dot');
+
+            // Remove all classes from all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active', 'prev', 'next');
+            });
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            // Add active class to current slide
+            if (slides[index]) {
+                slides[index].classList.add('active');
+            }
+            if (dots[index]) {
+                dots[index].classList.add('active');
+            }
+
+            // Add prev class to previous slide
+            const prevIndex = index - 1 < 0 ? slides.length - 1 : index - 1;
+            if (slides[prevIndex]) {
+                slides[prevIndex].classList.add('prev');
+            }
+
+            // Add next class to next slide
+            const nextIndex = index + 1 >= slides.length ? 0 : index + 1;
+            if (slides[nextIndex]) {
+                slides[nextIndex].classList.add('next');
+            }
+        }
+
+        function moveSlide(direction) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            currentSlide += direction;
+
+            // Wrap around
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = slides.length - 1;
+            }
+
+            showSlide(currentSlide);
+        }
+
+        function setSlide(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+        }
+
+        // Auto-advance carousel
+        function initCarousel() {
+            // Initialize first slide with peek effect
+            showSlide(0);
+
+            setInterval(() => {
+                moveSlide(1);
+            }, 5000); // Change every 5 seconds
+        }
+
+        function scrollToForm() {
+            const leadForm = document.getElementById('lead-form-section');
+            leadForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Initialize
+        populateEmptyForm();
+        populateEmptyProgressNote();
+        initScrollAnimations();
+        initStickyCTA();
+        initCarousel();
+    </script>
+</body>
+</html>
