@@ -15,15 +15,6 @@
             box-sizing: border-box;
         }
 
-        html {
-            overflow: hidden; /* no internal scrolling for iframe */
-        }
-
-        body {
-            height: auto;
-            overflow: visible;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
             background: #fafbfc;
@@ -2107,56 +2098,5 @@
         initCarousel();
     </script>
 
-    <!-- Iframe scroll handling for Framer embedding -->
-    <script>
-        (function () {
-            const PARENT_ORIGIN = "https://www.perspectiveshealth.ai";
-
-            // Send content height to parent on load and resize
-            function sendHeight() {
-                const height = document.body.scrollHeight;
-                window.parent.postMessage(
-                    { type: "IFRAME_HEIGHT", height: height },
-                    PARENT_ORIGIN
-                );
-            }
-
-            // Send height on load
-            window.addEventListener("load", sendHeight);
-            // Send height on resize
-            window.addEventListener("resize", sendHeight);
-            // Send height after initial render
-            setTimeout(sendHeight, 100);
-
-            // Desktop trackpad/mouse wheel
-            window.addEventListener("wheel", function (e) {
-                // prevent the iframe from trying to scroll/bounce
-                e.preventDefault();
-                window.parent.postMessage(
-                    { type: "PARENT_SCROLL", deltaY: e.deltaY },
-                    PARENT_ORIGIN
-                );
-            }, { passive: false });
-
-            // Mobile touch scroll
-            let lastY = null;
-            window.addEventListener("touchstart", (e) => {
-                lastY = e.touches[0].clientY;
-            }, { passive: true });
-
-            window.addEventListener("touchmove", (e) => {
-                if (lastY == null) return;
-                const y = e.touches[0].clientY;
-                const deltaY = lastY - y;
-                lastY = y;
-
-                e.preventDefault();
-                window.parent.postMessage(
-                    { type: "PARENT_SCROLL", deltaY },
-                    PARENT_ORIGIN
-                );
-            }, { passive: false });
-        })();
-    </script>
 </body>
 </html>
