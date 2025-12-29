@@ -2050,10 +2050,10 @@
                                         const absoluteTop = sectionRect.top + window.pageYOffset;
                                         window.parent.postMessage({
                                             type: "SCROLL_TO_POSITION",
-                                            scrollTo: absoluteTop - 200
+                                            scrollTo: absoluteTop - 500
                                         }, "https://www.perspectiveshealth.ai");
                                     } else {
-                                        progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                        progressSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                     }
                                 }
                             }, 800);
