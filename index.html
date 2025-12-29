@@ -1797,7 +1797,9 @@
                         setTimeout(() => {
                             const progressDemo = document.getElementById('progress-demo');
                             if (progressDemo) {
-                                progressDemo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                const yOffset = -80; // Negative value to land higher
+                                const y = progressDemo.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                                window.scrollTo({ top: y, behavior: 'smooth' });
                             }
                         }, 500);
                     }

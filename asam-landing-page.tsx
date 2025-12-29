@@ -154,7 +154,14 @@ export default function ASAMLandingPage() {
             See how Perspectives automates your most time-consuming assessments
           </p>
           <button
-            onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => {
+              const demoElement = document.getElementById('demo')
+              if (demoElement) {
+                const yOffset = -80 // Negative value to land higher
+                const y = demoElement.getBoundingClientRect().top + window.pageYOffset + yOffset
+                window.scrollTo({ top: y, behavior: 'smooth' })
+              }
+            }}
             className="bg-white text-[#7530c5] px-8 py-4 rounded-full font-bold text-lg hover:bg-opacity-90 transition-all"
           >
             Try It Now
