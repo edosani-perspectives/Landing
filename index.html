@@ -2014,8 +2014,8 @@
                             return;
                         }
 
-                        // After field 5, switch to instant fill for remaining fields
-                        if (currentField >= 5) {
+                        // After field 3, switch to instant fill for remaining fields
+                        if (currentField >= 3) {
                             // Fill all remaining fields instantly
                             for (let i = currentField; i < totalFields; i++) {
                                 const fieldElement = document.getElementById(`field-${i}`);
@@ -2051,7 +2051,7 @@
                                         // Scroll to position the Fill Progress Note button in view
                                         window.parent.postMessage({
                                             type: "SCROLL_TO_POSITION",
-                                            scrollTo: absoluteTop - 800
+                                            scrollTo: absoluteTop - 1200
                                         }, "https://www.perspectiveshealth.ai");
                                     } else {
                                         progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2294,8 +2294,8 @@
                         return;
                     }
 
-                    // After field 5, switch to instant fill for remaining fields
-                    if (currentField >= 5) {
+                    // After field 3, switch to instant fill for remaining fields
+                    if (currentField >= 3) {
                         // Fill all remaining fields instantly
                         for (let i = currentField; i < totalFields; i++) {
                             const fieldElement = document.getElementById(`field-progress-${i}`);
