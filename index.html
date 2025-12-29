@@ -2017,8 +2017,20 @@
                         const fieldElement = document.getElementById(`field-${currentField}`);
                         const value = fieldElement.getAttribute('data-value');
 
-                        // Step 1: Scroll to field
-                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        // Step 1: Scroll parent Framer page to show field
+                        const isInIframe = window.self !== window.top;
+                        if (isInIframe) {
+                            // In iframe: scroll parent Framer page
+                            const fieldRect = fieldElement.getBoundingClientRect();
+                            const absoluteTop = fieldRect.top + window.pageYOffset;
+                            window.parent.postMessage({
+                                type: "SCROLL_TO_POSITION",
+                                scrollTo: absoluteTop - 200
+                            }, "https://www.perspectiveshealth.ai");
+                        } else {
+                            // Standalone: scroll this page
+                            fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        }
 
                         // Step 2: Wait 600ms showing empty field
                         setTimeout(() => {
@@ -2234,8 +2246,20 @@
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
-                    // Step 1: Scroll to field
-                    fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                    // Step 1: Scroll parent Framer page to show field
+                    const isInIframe = window.self !== window.top;
+                    if (isInIframe) {
+                        // In iframe: scroll parent Framer page
+                        const fieldRect = fieldElement.getBoundingClientRect();
+                        const absoluteTop = fieldRect.top + window.pageYOffset;
+                        window.parent.postMessage({
+                            type: "SCROLL_TO_POSITION",
+                            scrollTo: absoluteTop - 200
+                        }, "https://www.perspectiveshealth.ai");
+                    } else {
+                        // Standalone: scroll this page
+                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                    }
 
                     // Step 2: Wait 600ms showing empty field
                     setTimeout(() => {
