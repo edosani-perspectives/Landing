@@ -1823,6 +1823,8 @@
     <script>
         // Flag to track if a demo is currently running
         let demoRunning = false;
+        // Store timeout ID to clear ASAM scroll if needed
+        let asamScrollTimeout = null;
 
         // Patient transcript data
         const transcript = [
@@ -2056,10 +2058,7 @@
                             demoRunning = false;
 
                             // Scroll to Progress Notes button after completion
-                            setTimeout(() => {
-                                // Only scroll if no other demo is running
-                                if (demoRunning) return;
-
+                            asamScrollTimeout = setTimeout(() => {
                                 const progressSection = document.getElementById('progress-demo');
                                 if (progressSection) {
                                     const isInIframe = window.self !== window.top;
@@ -2077,6 +2076,7 @@
                                         progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                     }
                                 }
+                                asamScrollTimeout = null;
                             }, 1000);
 
                             return;
@@ -2252,6 +2252,12 @@
 
         // Start progress note demo
         function startProgressDemo() {
+            // Cancel any pending ASAM scroll
+            if (asamScrollTimeout) {
+                clearTimeout(asamScrollTimeout);
+                asamScrollTimeout = null;
+            }
+
             demoRunning = true;
 
             const fillButton = document.getElementById('fill-btn-progress');
