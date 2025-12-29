@@ -140,7 +140,7 @@ export default function ASAMLandingPage() {
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: 'Inter, sans-serif' }}>
       {/* Hero Section */}
-      <header className="bg-[#7530c5] text-white py-12 px-6">
+      <header className="bg-[#1976D2] text-white py-12 px-6">
         <div className="max-w-7xl mx-auto">
           <img
             src="/Logo/Perspectives-Logo.png"
@@ -162,7 +162,7 @@ export default function ASAMLandingPage() {
                 window.scrollTo({ top: y, behavior: 'smooth' })
               }
             }}
-            className="bg-white text-[#7530c5] px-8 py-4 rounded-full font-bold text-lg hover:bg-opacity-90 transition-all"
+            className="bg-white text-[#1976D2] px-8 py-4 rounded-full font-bold text-lg hover:bg-opacity-90 transition-all"
           >
             Try It Now
           </button>
@@ -182,11 +182,11 @@ export default function ASAMLandingPage() {
                     key={idx}
                     className={`p-3 rounded-lg ${
                       exchange.speaker === 'clinician'
-                        ? 'bg-[#7530c51a] ml-8'
+                        ? 'bg-[#1976D21a] ml-8'
                         : 'bg-[#f5f4f2] mr-8'
                     }`}
                   >
-                    <div className="font-bold text-sm mb-1 text-[#7530c5]">
+                    <div className="font-bold text-sm mb-1 text-[#1976D2]">
                       {exchange.speaker === 'clinician' ? 'Clinician' : 'Patient'}
                     </div>
                     <div className="text-[#242424]">{exchange.text}</div>
@@ -203,7 +203,7 @@ export default function ASAMLandingPage() {
                 <div className="flex items-center justify-center h-[500px]">
                   <button
                     onClick={startDemo}
-                    className="bg-[#7530c5] text-white px-12 py-6 rounded-full font-bold text-xl hover:bg-opacity-90 transition-all shadow-lg"
+                    className="bg-[#1976D2] text-white px-12 py-6 rounded-full font-bold text-xl hover:bg-opacity-90 transition-all shadow-lg"
                   >
                     🤖 Fill ASAM Form
                   </button>
@@ -211,20 +211,20 @@ export default function ASAMLandingPage() {
               ) : (
                 <div className="space-y-6 max-h-[600px] overflow-y-auto pr-2">
                   {asamFields.map((dimension, dimIdx) => (
-                    <div key={dimIdx} className="border-l-4 border-[#7530c5] pl-4">
+                    <div key={dimIdx} className="border-l-4 border-[#1976D2] pl-4">
                       <h3 className="font-bold text-lg mb-3 text-[#242424]">{dimension.dimension}</h3>
                       <div className="space-y-4">
                         {dimension.fields.map((field, fieldIdx) => {
                           const isFilled = fieldsFilled[`dim-${dimIdx}`] > fieldIdx
                           return (
                             <div key={fieldIdx}>
-                              <label className="block text-sm font-semibold mb-1 text-[#7530c5]">
+                              <label className="block text-sm font-semibold mb-1 text-[#1976D2]">
                                 {field.label}
                               </label>
                               <div
                                 className={`p-3 rounded border-2 transition-all duration-300 ${
                                   isFilled
-                                    ? 'border-[#7530c5] bg-[#7530c51a]'
+                                    ? 'border-[#1976D2] bg-[#1976D21a]'
                                     : 'border-gray-200 bg-gray-50'
                                 }`}
                               >
@@ -248,7 +248,7 @@ export default function ASAMLandingPage() {
           {/* Value Props - shown during animation */}
           {demoStarted && currentFieldIndex >= 0 && currentFieldIndex < totalFields && (
             <div className="mt-8 grid md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#7530c5]">
+              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#1976D2]">
                 <div className="text-3xl mb-2">⏱️</div>
                 <h3 className="font-bold text-lg mb-2 text-[#242424]">Save Massive Time</h3>
                 <p className="text-sm text-gray-600">
@@ -256,14 +256,14 @@ export default function ASAMLandingPage() {
                   <span className="block text-xs mt-1">(vs. 45 minutes manual)</span>
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#7530c5]">
+              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#1976D2]">
                 <div className="text-3xl mb-2">📊</div>
                 <h3 className="font-bold text-lg mb-2 text-[#242424]">More Detailed & Compliant</h3>
                 <p className="text-sm text-gray-600">
                   AI cross-references patient statements and clinical criteria for audit-ready documentation
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#7530c5]">
+              <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#1976D2]">
                 <div className="text-3xl mb-2">💚</div>
                 <h3 className="font-bold text-lg mb-2 text-[#242424]">Less Burnout</h3>
                 <p className="text-sm text-gray-600">
@@ -295,7 +295,7 @@ export default function ASAMLandingPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#7530c5] focus:outline-none"
+                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#1976D2] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -305,7 +305,7 @@ export default function ASAMLandingPage() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#7530c5] focus:outline-none"
+                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#1976D2] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -315,7 +315,7 @@ export default function ASAMLandingPage() {
                     required
                     value={formData.practiceName}
                     onChange={(e) => setFormData({ ...formData, practiceName: e.target.value })}
-                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#7530c5] focus:outline-none"
+                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#1976D2] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -324,7 +324,7 @@ export default function ASAMLandingPage() {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#7530c5] focus:outline-none"
+                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#1976D2] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -333,7 +333,7 @@ export default function ASAMLandingPage() {
                     required
                     value={formData.emr}
                     onChange={(e) => setFormData({ ...formData, emr: e.target.value })}
-                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#7530c5] focus:outline-none"
+                    className="w-full p-3 rounded border-2 border-gray-300 focus:border-[#1976D2] focus:outline-none"
                   >
                     <option value="">Select your EMR...</option>
                     <option value="SimplePractice">SimplePractice</option>
@@ -346,7 +346,7 @@ export default function ASAMLandingPage() {
 
               <button
                 type="submit"
-                className="w-full mt-6 bg-[#7530c5] text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-opacity-90 transition-all"
+                className="w-full mt-6 bg-[#1976D2] text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-opacity-90 transition-all"
               >
                 Start My Free Trial
               </button>
