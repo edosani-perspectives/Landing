@@ -2261,23 +2261,6 @@
             // Start audio animation
             const audioAnimation = animateAudioDotsProgress();
 
-            // Scroll to show the form area once at the start (mobile only)
-            // Wait for layout to settle after demo-active class is applied
-            const isMobileCheck = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-            const isInIframe = window.self !== window.top;
-            if (isMobileCheck && isInIframe) {
-                setTimeout(() => {
-                    const formElement = document.getElementById('progress-note-form');
-                    if (formElement) {
-                        const formRect = formElement.getBoundingClientRect();
-                        window.parent.postMessage({
-                            type: "SCROLL_TO_POSITION",
-                            scrollTo: window.pageYOffset + formRect.top - 150
-                        }, "https://www.perspectiveshealth.ai");
-                    }
-                }, 200); // Wait for layout to settle
-            }
-
             // Status messages to cycle through
             const statusMessages = [
                 'Analyzing session...',
@@ -2343,20 +2326,20 @@
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
 
-                        // Scroll to Start Free Trial button after completion
+                        // Scroll to show value props and Start Free Trial button
                         setTimeout(() => {
-                            const ctaSection = document.querySelector('.demo-cta-section');
-                            if (ctaSection) {
+                            const valueProps = document.getElementById('value-props-progress');
+                            if (valueProps) {
                                 const isInIframe = window.self !== window.top;
                                 if (isInIframe) {
-                                    const ctaRect = ctaSection.getBoundingClientRect();
-                                    const absoluteTop = ctaRect.top + window.pageYOffset;
+                                    const propsRect = valueProps.getBoundingClientRect();
+                                    const absoluteTop = propsRect.top + window.pageYOffset;
                                     window.parent.postMessage({
                                         type: "SCROLL_TO_POSITION",
-                                        scrollTo: absoluteTop - 300
+                                        scrollTo: absoluteTop - 200
                                     }, "https://www.perspectiveshealth.ai");
                                 } else {
-                                    ctaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    valueProps.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                 }
                             }
                         }, 800);
@@ -2367,33 +2350,50 @@
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
-                    // No per-field scrolling - form is already positioned from initial scroll
-                    // Just wait a bit, then fill the field
+                    // Step 1: Scroll parent Framer page to show field (same as ASAM)
+                    const isInIframe = window.self !== window.top;
+                    if (isInIframe) {
+                        // In iframe: scroll parent Framer page (field more centered)
+                        const fieldRect = fieldElement.getBoundingClientRect();
+                        const absoluteTop = fieldRect.top + window.pageYOffset;
+                        window.parent.postMessage({
+                            type: "SCROLL_TO_POSITION",
+                            scrollTo: absoluteTop - 400
+                        }, "https://www.perspectiveshealth.ai");
+                    } else {
+                        // Standalone: scroll this page
+                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                    }
+
+                    // Step 2: Wait 200ms for scroll to complete
                     setTimeout(() => {
-                        // Fill the field
-                        fieldElement.querySelector('p').textContent = value;
-                        fieldElement.classList.add('filled');
+                        // Step 3: Wait 400ms showing empty field, then fill
+                        setTimeout(() => {
+                            // Step 4: Fill the field
+                            fieldElement.querySelector('p').textContent = value;
+                            fieldElement.classList.add('filled');
 
-                        // Update progress bar and counter
-                        const progress = ((currentField + 1) / totalFields) * 100;
-                        progressBar.style.width = progress + '%';
-                        progressCurrent.textContent = currentField + 1;
+                            // Update progress bar and counter
+                            const progress = ((currentField + 1) / totalFields) * 100;
+                            progressBar.style.width = progress + '%';
+                            progressCurrent.textContent = currentField + 1;
 
-                        // Show value cards
-                        if (currentField === card1Threshold) {
-                            document.getElementById('value-card-progress-1').classList.add('show');
-                        }
-                        if (currentField === card2Threshold) {
-                            document.getElementById('value-card-progress-2').classList.add('show');
-                        }
-                        if (currentField === card3Threshold) {
-                            document.getElementById('value-card-progress-3').classList.add('show');
-                        }
+                            // Show value cards
+                            if (currentField === card1Threshold) {
+                                document.getElementById('value-card-progress-1').classList.add('show');
+                            }
+                            if (currentField === card2Threshold) {
+                                document.getElementById('value-card-progress-2').classList.add('show');
+                            }
+                            if (currentField === card3Threshold) {
+                                document.getElementById('value-card-progress-3').classList.add('show');
+                            }
 
-                        // Move to next field
-                        currentField++;
-                        setTimeout(processNextField, 500);
-                    }, 400);
+                            // Step 5: Move to next field after 300ms
+                            currentField++;
+                            setTimeout(processNextField, 300);
+                        }, 400);
+                    }, 200);
                 };
 
                 // Start processing
