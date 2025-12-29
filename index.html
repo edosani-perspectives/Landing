@@ -2011,10 +2011,9 @@
                         if (isMobile) {
                             // Mobile: scroll to EVERY field (including first), show empty, then fill
                             const fieldRect = fieldElement.getBoundingClientRect();
-                            const viewportHeight = window.innerHeight;
                             const absoluteTop = fieldRect.top + window.pageYOffset;
-                            const offset = viewportHeight * 0.15; // Position at 15% from top (scroll further down)
-                            window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+                            // Scroll aggressively - put field near very top of screen
+                            window.scrollTo({ top: absoluteTop - 100, behavior: 'auto' });
 
                             // Delay so user sees empty field before it fills
                             setTimeout(() => {
@@ -2216,10 +2215,9 @@
                     if (isMobile) {
                         // Mobile: scroll to EVERY field (including first), show empty, then fill
                         const fieldRect = fieldElement.getBoundingClientRect();
-                        const viewportHeight = window.innerHeight;
                         const absoluteTop = fieldRect.top + window.pageYOffset;
-                        const offset = viewportHeight * 0.15; // Position at 15% from top (scroll further down)
-                        window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+                        // Scroll aggressively - put field near very top of screen
+                        window.scrollTo({ top: absoluteTop - 100, behavior: 'auto' });
 
                         // Delay so user sees empty field before it fills
                         setTimeout(() => {
