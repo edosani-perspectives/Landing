@@ -2032,7 +2032,7 @@
                             fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
                         }
 
-                        // Step 2: Wait 300ms showing empty field
+                        // Step 2: Wait 400ms showing empty field
                         setTimeout(() => {
                             // Step 3: Fill the field
                             fieldElement.querySelector('p').textContent = value;
@@ -2058,10 +2058,10 @@
                                 document.getElementById('value-card-3').classList.add('show');
                             }
 
-                            // Step 4: Move to next field after 100ms
+                            // Step 4: Move to next field after 200ms (see filled field before scrolling)
                             currentField++;
-                            setTimeout(processNextField, 100);
-                        }, 300);
+                            setTimeout(processNextField, 200);
+                        }, 400);
                     };
 
                     // Start processing
@@ -2261,7 +2261,7 @@
                         fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
                     }
 
-                    // Step 2: Wait 300ms showing empty field
+                    // Step 2: Wait 400ms showing empty field
                     setTimeout(() => {
                         // Step 3: Fill the field
                         fieldElement.querySelector('p').textContent = value;
@@ -2283,10 +2283,10 @@
                             document.getElementById('value-card-progress-3').classList.add('show');
                         }
 
-                        // Step 4: Move to next field after 100ms
+                        // Step 4: Move to next field after 200ms (see filled field before scrolling)
                         currentField++;
-                        setTimeout(processNextField, 100);
-                    }, 300);
+                        setTimeout(processNextField, 200);
+                    }, 400);
                 };
 
                 // Start processing
