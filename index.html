@@ -15,6 +15,11 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden; /* no internal scrolling for iframe */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #fafbfc;
@@ -1747,14 +1752,11 @@
                         progressBar.style.width = progress + '%';
                         progressCurrent.textContent = currentField + 1;
 
-                        // Smooth auto-scroll - only scroll every 2nd field for smoother motion
-                        // Starts after first value card, scrolls to bottom
-                        if (currentField >= Math.floor(totalFields * 0.15) && currentField % 2 === 0) {
-                            // Use 'nearest' to prevent jumping back up
-                            // Only for the last field, use 'end' to ensure we reach the bottom
-                            const blockPosition = currentField === totalFields - 1 ? 'end' : 'nearest';
-                            fieldElement.scrollIntoView({ behavior: 'smooth', block: blockPosition, inline: 'nearest' });
-                        }
+                        // Smooth auto-scroll disabled for iframe embedding (no internal scrolling)
+                        // if (currentField >= Math.floor(totalFields * 0.15) && currentField % 2 === 0) {
+                        //     const blockPosition = currentField === totalFields - 1 ? 'end' : 'nearest';
+                        //     fieldElement.scrollIntoView({ behavior: 'smooth', block: blockPosition, inline: 'nearest' });
+                        // }
 
                         // Update timer
                         const elapsed = Math.round((Date.now() - startTime) / 1000);
@@ -1769,18 +1771,16 @@
                         }
                         if (currentField === card3Threshold) {
                             document.getElementById('value-card-3').classList.add('show');
-                            // Scroll page down when third card appears to make it fully visible
-                            setTimeout(() => {
-                                const card3 = document.getElementById('value-card-3');
-                                if (card3) {
-                                    // Scroll to align bottom of card with bottom of viewport
-                                    card3.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                                    // Add a bit more scroll for padding
-                                    setTimeout(() => {
-                                        window.scrollBy({ top: 100, behavior: 'smooth' });
-                                    }, 400);
-                                }
-                            }, 300);
+                            // Internal scrolling disabled for iframe embedding
+                            // setTimeout(() => {
+                            //     const card3 = document.getElementById('value-card-3');
+                            //     if (card3) {
+                            //         card3.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                            //         setTimeout(() => {
+                            //             window.scrollBy({ top: 100, behavior: 'smooth' });
+                            //         }, 400);
+                            //     }
+                            // }, 300);
                         }
 
                         currentField++;
@@ -1798,8 +1798,14 @@
                             const progressDemo = document.getElementById('progress-demo');
                             if (progressDemo) {
                                 const yOffset = -80; // Negative value to land higher
-                                const y = progressDemo.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                                window.scrollTo({ top: y, behavior: 'smooth' });
+                                const rect = progressDemo.getBoundingClientRect();
+                                const absoluteTop = rect.top + window.pageYOffset;
+
+                                // Send scroll command to parent Framer page
+                                window.parent.postMessage({
+                                    type: "SCROLL_TO_POSITION",
+                                    scrollTo: absoluteTop + yOffset
+                                }, "https://www.perspectiveshealth.ai");
                             }
                         }, 500);
                     }
@@ -1942,7 +1948,10 @@
 
                     // Scroll down to show the CTA button
                     setTimeout(() => {
-                        window.scrollBy({ top: 400, behavior: 'smooth' });
+                        window.parent.postMessage({
+                            type: "PARENT_SCROLL",
+                            deltaY: 400
+                        }, "https://www.perspectiveshealth.ai");
                     }, 500);
                 }
             }, intervalTime);
@@ -2085,8 +2094,14 @@
             const leadForm = document.getElementById('lead-form-section');
             if (leadForm) {
                 const yOffset = -80; // Negative value to land higher
-                const y = leadForm.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({ top: y, behavior: 'smooth' });
+                const rect = leadForm.getBoundingClientRect();
+                const absoluteTop = rect.top + window.pageYOffset;
+
+                // Send scroll command to parent Framer page
+                window.parent.postMessage({
+                    type: "SCROLL_TO_POSITION",
+                    scrollTo: absoluteTop + yOffset
+                }, "https://www.perspectiveshealth.ai");
             }
         }
 
@@ -2096,6 +2111,42 @@
         initScrollAnimations();
         initStickyCTA();
         initCarousel();
+    </script>
+
+    <!-- Iframe scroll handling for Framer embedding -->
+    <script>
+        (function () {
+            const PARENT_ORIGIN = "https://www.perspectiveshealth.ai";
+
+            // Desktop trackpad/mouse wheel
+            window.addEventListener("wheel", function (e) {
+                // prevent the iframe from trying to scroll/bounce
+                e.preventDefault();
+                window.parent.postMessage(
+                    { type: "PARENT_SCROLL", deltaY: e.deltaY },
+                    PARENT_ORIGIN
+                );
+            }, { passive: false });
+
+            // Mobile touch scroll
+            let lastY = null;
+            window.addEventListener("touchstart", (e) => {
+                lastY = e.touches[0].clientY;
+            }, { passive: true });
+
+            window.addEventListener("touchmove", (e) => {
+                if (lastY == null) return;
+                const y = e.touches[0].clientY;
+                const deltaY = lastY - y;
+                lastY = y;
+
+                e.preventDefault();
+                window.parent.postMessage(
+                    { type: "PARENT_SCROLL", deltaY },
+                    PARENT_ORIGIN
+                );
+            }, { passive: false });
+        })();
     </script>
 
 </body>
