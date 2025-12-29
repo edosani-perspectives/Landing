@@ -2009,8 +2009,12 @@
                         const value = fieldElement.getAttribute('data-value');
 
                         if (isMobile) {
-                            // Mobile: use scrollIntoView to center field in viewport
-                            fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                            // Mobile: scroll ahead to field +3 to stay ahead of filling
+                            const scrollTarget = Math.min(currentField + 3, totalFields - 1);
+                            const targetElement = document.getElementById(`field-${scrollTarget}`);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                            }
 
                             // Quick delay so user sees empty field before it fills
                             setTimeout(() => {
@@ -2210,8 +2214,12 @@
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
                     if (isMobile) {
-                        // Mobile: use scrollIntoView to center field in viewport
-                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        // Mobile: scroll ahead to field +3 to stay ahead of filling
+                        const scrollTarget = Math.min(currentField + 3, totalFields - 1);
+                        const targetElement = document.getElementById(`field-progress-${scrollTarget}`);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        }
 
                         // Quick delay so user sees empty field before it fills
                         setTimeout(() => {
