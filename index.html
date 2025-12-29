@@ -2013,7 +2013,7 @@
                             const fieldRect = fieldElement.getBoundingClientRect();
                             const viewportHeight = window.innerHeight;
                             const absoluteTop = fieldRect.top + window.pageYOffset;
-                            const offset = viewportHeight * 0.3; // Position at 30% from top
+                            const offset = viewportHeight * 0.15; // Position at 15% from top (scroll further down)
                             window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
 
                             // Delay so user sees empty field before it fills
@@ -2218,7 +2218,7 @@
                         const fieldRect = fieldElement.getBoundingClientRect();
                         const viewportHeight = window.innerHeight;
                         const absoluteTop = fieldRect.top + window.pageYOffset;
-                        const offset = viewportHeight * 0.3; // Position at 30% from top
+                        const offset = viewportHeight * 0.15; // Position at 15% from top (scroll further down)
                         window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
 
                         // Delay so user sees empty field before it fills
