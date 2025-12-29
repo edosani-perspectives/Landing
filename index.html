@@ -2014,6 +2014,34 @@
                             return;
                         }
 
+                        // After field 10, switch to instant fill for remaining fields
+                        if (currentField >= 10) {
+                            // Fill all remaining fields instantly
+                            for (let i = currentField; i < totalFields; i++) {
+                                const fieldElement = document.getElementById(`field-${i}`);
+                                const value = fieldElement.getAttribute('data-value');
+                                fieldElement.querySelector('p').textContent = value;
+                                fieldElement.classList.add('filled');
+
+                                // Update progress
+                                const progress = ((i + 1) / totalFields) * 100;
+                                progressBar.style.width = progress + '%';
+                                progressCurrent.textContent = i + 1;
+                            }
+
+                            // Show all value cards
+                            document.getElementById('value-card-1').classList.add('show');
+                            document.getElementById('value-card-2').classList.add('show');
+                            document.getElementById('value-card-3').classList.add('show');
+
+                            // Update timer
+                            const elapsed = Math.round((Date.now() - startTime) / 1000);
+                            document.getElementById('timer').textContent = elapsed;
+
+                            clearInterval(audioAnimation);
+                            return;
+                        }
+
                         const fieldElement = document.getElementById(`field-${currentField}`);
                         const value = fieldElement.getAttribute('data-value');
 
@@ -2243,6 +2271,31 @@
                         document.getElementById('value-card-progress-1').classList.add('show');
                         document.getElementById('value-card-progress-2').classList.add('show');
                         document.getElementById('value-card-progress-3').classList.add('show');
+                        return;
+                    }
+
+                    // After field 5, switch to instant fill for remaining fields
+                    if (currentField >= 5) {
+                        // Fill all remaining fields instantly
+                        for (let i = currentField; i < totalFields; i++) {
+                            const fieldElement = document.getElementById(`field-progress-${i}`);
+                            const value = progressNoteValues[`field-progress-${i}`];
+                            fieldElement.querySelector('p').textContent = value;
+                            fieldElement.classList.add('filled');
+
+                            // Update progress
+                            const progress = ((i + 1) / totalFields) * 100;
+                            progressBar.style.width = progress + '%';
+                            progressCurrent.textContent = i + 1;
+                        }
+
+                        // Show all value cards
+                        document.getElementById('value-card-progress-1').classList.add('show');
+                        document.getElementById('value-card-progress-2').classList.add('show');
+                        document.getElementById('value-card-progress-3').classList.add('show');
+
+                        clearInterval(audioAnimation);
+                        clearInterval(statusInterval);
                         return;
                     }
 
