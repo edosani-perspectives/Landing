@@ -2173,6 +2173,7 @@
                         } else {
                             clearInterval(fillInterval);
                             clearInterval(audioAnimation);
+                            demoRunning = false;
 
                             // Ensure all cards are visible
                             document.getElementById('value-card-1').classList.add('show');
@@ -2181,19 +2182,25 @@
 
                             // Scroll to Progress Notes demo after animation completes
                             setTimeout(() => {
-                                const progressDemo = document.getElementById('progress-demo');
-                                if (progressDemo) {
-                                    const yOffset = -80; // Negative value to land higher
-                                    const rect = progressDemo.getBoundingClientRect();
-                                    const absoluteTop = rect.top + window.pageYOffset;
+                                // Only scroll if no other demo is running
+                                if (demoRunning) return;
 
-                                    // Send scroll command to parent Framer page
-                                    window.parent.postMessage({
-                                        type: "SCROLL_TO_POSITION",
-                                        scrollTo: absoluteTop + yOffset
-                                    }, "https://www.perspectiveshealth.ai");
+                                const progressSection = document.getElementById('progress-demo');
+                                if (progressSection) {
+                                    const isInIframe = window.self !== window.top;
+                                    if (isInIframe) {
+                                        const sectionRect = progressSection.getBoundingClientRect();
+                                        const absoluteTop = sectionRect.top + window.pageYOffset;
+                                        // Use same offset as mobile for consistency
+                                        const targetScroll = absoluteTop - 1200;
+                                        const scrollPosition = Math.max(0, targetScroll);
+                                        window.parent.postMessage({
+                                            type: "SCROLL_TO_POSITION",
+                                            scrollTo: scrollPosition
+                                        }, "https://www.perspectiveshealth.ai");
+                                    }
                                 }
-                            }, 500);
+                            }, 1000);
                         }
                     }, intervalTime);
                 }
@@ -2423,13 +2430,7 @@
                         // Update status to completion
                         progressStatusText.textContent = 'Note Complete!';
 
-                        // Scroll down to show the CTA button
-                        setTimeout(() => {
-                            window.parent.postMessage({
-                                type: "PARENT_SCROLL",
-                                deltaY: 600
-                            }, "https://www.perspectiveshealth.ai");
-                        }, 500);
+                        // No scroll after completion - avoid conflicts
                     }
                 }, intervalTime);
             }
