@@ -2009,17 +2009,14 @@
                         const value = fieldElement.getAttribute('data-value');
 
                         if (isMobile) {
-                            // Mobile: scroll to EVERY field (including first), show empty, then fill
-                            const fieldRect = fieldElement.getBoundingClientRect();
-                            const absoluteTop = fieldRect.top + window.pageYOffset;
-                            // Scroll way down the page - aggressive offset
-                            window.scrollTo({ top: absoluteTop + 600, behavior: 'auto' });
+                            // Mobile: use scrollIntoView to center field in viewport
+                            fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
 
                             // Quick delay so user sees empty field before it fills
                             setTimeout(() => {
                                 fieldElement.querySelector('p').textContent = value;
                                 fieldElement.classList.add('filled');
-                            }, 150);
+                            }, 200);
                         } else {
                             // Desktop: fill immediately
                             fieldElement.querySelector('p').textContent = value;
@@ -2213,17 +2210,14 @@
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
                     if (isMobile) {
-                        // Mobile: scroll to EVERY field (including first), show empty, then fill
-                        const fieldRect = fieldElement.getBoundingClientRect();
-                        const absoluteTop = fieldRect.top + window.pageYOffset;
-                        // Scroll way down the page - aggressive offset
-                        window.scrollTo({ top: absoluteTop + 600, behavior: 'auto' });
+                        // Mobile: use scrollIntoView to center field in viewport
+                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
 
                         // Quick delay so user sees empty field before it fills
                         setTimeout(() => {
                             fieldElement.querySelector('p').textContent = value;
                             fieldElement.classList.add('filled');
-                        }, 150);
+                        }, 200);
                     } else {
                         // Desktop: fill immediately
                         fieldElement.querySelector('p').textContent = value;
