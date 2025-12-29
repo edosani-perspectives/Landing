@@ -2057,10 +2057,11 @@
                                     if (isInIframe) {
                                         const sectionRect = progressSection.getBoundingClientRect();
                                         const absoluteTop = sectionRect.top + window.pageYOffset;
-                                        // Scroll to position the Fill Progress Note button in view
+                                        // Ensure scroll position is never negative
+                                        const scrollPosition = Math.max(0, absoluteTop - 1200);
                                         window.parent.postMessage({
                                             type: "SCROLL_TO_POSITION",
-                                            scrollTo: absoluteTop - 1200
+                                            scrollTo: scrollPosition
                                         }, "https://www.perspectiveshealth.ai");
                                     } else {
                                         progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2080,9 +2081,11 @@
                             // In iframe: scroll parent Framer page (field more centered)
                             const fieldRect = fieldElement.getBoundingClientRect();
                             const absoluteTop = fieldRect.top + window.pageYOffset;
+                            // Ensure scroll position is never negative
+                            const scrollPosition = Math.max(0, absoluteTop - 400);
                             window.parent.postMessage({
                                 type: "SCROLL_TO_POSITION",
-                                scrollTo: absoluteTop - 400
+                                scrollTo: scrollPosition
                             }, "https://www.perspectiveshealth.ai");
                         } else {
                             // Standalone: scroll this page
@@ -2345,9 +2348,11 @@
                             // In iframe: scroll parent Framer page (field more centered)
                             const fieldRect = fieldElement.getBoundingClientRect();
                             const absoluteTop = fieldRect.top + window.pageYOffset;
+                            // Ensure scroll position is never negative
+                            const scrollPosition = Math.max(0, absoluteTop - 1200);
                             window.parent.postMessage({
                                 type: "SCROLL_TO_POSITION",
-                                scrollTo: absoluteTop - 1200
+                                scrollTo: scrollPosition
                             }, "https://www.perspectiveshealth.ai");
                         } else {
                             // Standalone: scroll this page
