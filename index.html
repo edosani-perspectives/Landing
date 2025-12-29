@@ -1998,8 +1998,8 @@
 
                 // Animate filling fields
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-                // Mobile: faster interval with aggressive scrolling. Desktop: fast 3.33s total
-                const intervalTime = isMobile ? 500 : (3333 / totalFields);
+                // Mobile: MUCH longer interval so scroll completes before next field. Desktop: fast 3.33s total
+                const intervalTime = isMobile ? 1000 : (3333 / totalFields);
                 let currentField = 0;
                 let startTime = Date.now();
 
@@ -2009,18 +2009,14 @@
                         const value = fieldElement.getAttribute('data-value');
 
                         if (isMobile) {
-                            // Mobile: scroll ahead to field +3 to stay ahead of filling
-                            const scrollTarget = Math.min(currentField + 3, totalFields - 1);
-                            const targetElement = document.getElementById(`field-${scrollTarget}`);
-                            if (targetElement) {
-                                targetElement.scrollIntoView({ behavior: 'auto', block: 'center' });
-                            }
+                            // Mobile: scroll to CURRENT field, center it
+                            fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
 
-                            // Quick delay so user sees empty field before it fills
+                            // Wait 500ms so user definitely sees empty field before it fills
                             setTimeout(() => {
                                 fieldElement.querySelector('p').textContent = value;
                                 fieldElement.classList.add('filled');
-                            }, 200);
+                            }, 500);
                         } else {
                             // Desktop: fill immediately
                             fieldElement.querySelector('p').textContent = value;
@@ -2204,8 +2200,8 @@
 
             // Animate filling fields
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-            // Mobile: faster interval with aggressive scrolling. Desktop: fast 3.33s total
-            const intervalTime = isMobile ? 500 : (3333 / totalFields);
+            // Mobile: MUCH longer interval so scroll completes before next field. Desktop: fast 3.33s total
+            const intervalTime = isMobile ? 1000 : (3333 / totalFields);
             let currentField = 0;
 
             const fillInterval = setInterval(() => {
@@ -2214,18 +2210,14 @@
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
                     if (isMobile) {
-                        // Mobile: scroll ahead to field +3 to stay ahead of filling
-                        const scrollTarget = Math.min(currentField + 3, totalFields - 1);
-                        const targetElement = document.getElementById(`field-progress-${scrollTarget}`);
-                        if (targetElement) {
-                            targetElement.scrollIntoView({ behavior: 'auto', block: 'center' });
-                        }
+                        // Mobile: scroll to CURRENT field, center it
+                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
 
-                        // Quick delay so user sees empty field before it fills
+                        // Wait 500ms so user definitely sees empty field before it fills
                         setTimeout(() => {
                             fieldElement.querySelector('p').textContent = value;
                             fieldElement.classList.add('filled');
-                        }, 200);
+                        }, 500);
                     } else {
                         // Desktop: fill immediately
                         fieldElement.querySelector('p').textContent = value;
