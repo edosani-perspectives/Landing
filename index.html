@@ -2350,24 +2350,29 @@
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
-                    // Step 1: Scroll parent Framer page to show field
-                    const isInIframe = window.self !== window.top;
-                    if (isInIframe) {
-                        // In iframe: scroll parent Framer page (field more centered)
-                        const fieldRect = fieldElement.getBoundingClientRect();
-                        const absoluteTop = fieldRect.top + window.pageYOffset;
-                        window.parent.postMessage({
-                            type: "SCROLL_TO_POSITION",
-                            scrollTo: absoluteTop - 1200
-                        }, "https://www.perspectiveshealth.ai");
-                    } else {
-                        // Standalone: scroll this page
-                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                    // Only scroll for fields after the first one (first field is already visible)
+                    const shouldScroll = currentField > 0;
+
+                    if (shouldScroll) {
+                        // Step 1: Scroll parent Framer page to show field
+                        const isInIframe = window.self !== window.top;
+                        if (isInIframe) {
+                            // In iframe: scroll parent Framer page (field more centered)
+                            const fieldRect = fieldElement.getBoundingClientRect();
+                            const absoluteTop = fieldRect.top + window.pageYOffset;
+                            window.parent.postMessage({
+                                type: "SCROLL_TO_POSITION",
+                                scrollTo: absoluteTop - 1200
+                            }, "https://www.perspectiveshealth.ai");
+                        } else {
+                            // Standalone: scroll this page
+                            fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        }
                     }
 
-                    // Step 2: Wait 200ms for scroll to complete
+                    // Step 2: Wait for scroll to complete (or just short delay if no scroll)
                     setTimeout(() => {
-                        // Step 3: Wait 400ms showing empty field, then fill
+                        // Step 3: Wait showing empty field, then fill
                         setTimeout(() => {
                             // Step 4: Fill the field
                             fieldElement.querySelector('p').textContent = value;
