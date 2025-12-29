@@ -2049,8 +2049,26 @@
 
                             clearInterval(audioAnimation);
 
-                            // Don't scroll after ASAM completion - causes scroll lock issues
-                            // User can scroll down to Progress Notes manually
+                            // Scroll to Progress Notes button after completion
+                            setTimeout(() => {
+                                const progressSection = document.getElementById('progress-demo');
+                                if (progressSection) {
+                                    const isInIframe = window.self !== window.top;
+                                    if (isInIframe) {
+                                        const sectionRect = progressSection.getBoundingClientRect();
+                                        const absoluteTop = sectionRect.top + window.pageYOffset;
+                                        // Use moderate offset (-600 instead of -1200) and ensure valid scroll position
+                                        const targetScroll = absoluteTop - 600;
+                                        const scrollPosition = Math.max(0, targetScroll);
+                                        window.parent.postMessage({
+                                            type: "SCROLL_TO_POSITION",
+                                            scrollTo: scrollPosition
+                                        }, "https://www.perspectiveshealth.ai");
+                                    } else {
+                                        progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    }
+                                }
+                            }, 1000);
 
                             return;
                         }
