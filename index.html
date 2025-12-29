@@ -2338,57 +2338,32 @@
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
-                    // Only scroll for fields after the first one (first field is already visible)
-                    const shouldScroll = currentField > 0;
-
-                    if (shouldScroll) {
-                        // Step 1: Scroll parent Framer page to show field
-                        const isInIframe = window.self !== window.top;
-                        if (isInIframe) {
-                            // In iframe: scroll parent Framer page (field more centered)
-                            const fieldRect = fieldElement.getBoundingClientRect();
-                            const absoluteTop = fieldRect.top + window.pageYOffset;
-                            // Ensure scroll position is never negative
-                            const scrollPosition = Math.max(0, absoluteTop - 1200);
-                            window.parent.postMessage({
-                                type: "SCROLL_TO_POSITION",
-                                scrollTo: scrollPosition
-                            }, "https://www.perspectiveshealth.ai");
-                        } else {
-                            // Standalone: scroll this page
-                            fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
-                        }
-                    }
-
-                    // Step 2: Wait for scroll to complete (or just short delay if no scroll)
+                    // No per-field scrolling - just fill in place to avoid scroll lock issues
                     setTimeout(() => {
-                        // Step 3: Wait showing empty field, then fill
-                        setTimeout(() => {
-                            // Step 4: Fill the field
-                            fieldElement.querySelector('p').textContent = value;
-                            fieldElement.classList.add('filled');
+                        // Fill the field
+                        fieldElement.querySelector('p').textContent = value;
+                        fieldElement.classList.add('filled');
 
-                            // Update progress bar and counter
-                            const progress = ((currentField + 1) / totalFields) * 100;
-                            progressBar.style.width = progress + '%';
-                            progressCurrent.textContent = currentField + 1;
+                        // Update progress bar and counter
+                        const progress = ((currentField + 1) / totalFields) * 100;
+                        progressBar.style.width = progress + '%';
+                        progressCurrent.textContent = currentField + 1;
 
-                            // Show value cards
-                            if (currentField === card1Threshold) {
-                                document.getElementById('value-card-progress-1').classList.add('show');
-                            }
-                            if (currentField === card2Threshold) {
-                                document.getElementById('value-card-progress-2').classList.add('show');
-                            }
-                            if (currentField === card3Threshold) {
-                                document.getElementById('value-card-progress-3').classList.add('show');
-                            }
+                        // Show value cards
+                        if (currentField === card1Threshold) {
+                            document.getElementById('value-card-progress-1').classList.add('show');
+                        }
+                        if (currentField === card2Threshold) {
+                            document.getElementById('value-card-progress-2').classList.add('show');
+                        }
+                        if (currentField === card3Threshold) {
+                            document.getElementById('value-card-progress-3').classList.add('show');
+                        }
 
-                            // Step 5: Move to next field after 300ms
-                            currentField++;
-                            setTimeout(processNextField, 300);
-                        }, 400);
-                    }, 200);
+                        // Move to next field
+                        currentField++;
+                        setTimeout(processNextField, 500);
+                    }, 400);
                 };
 
                 // Start processing
