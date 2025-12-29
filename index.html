@@ -1998,8 +1998,8 @@
 
                 // Animate filling fields
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-                // Mobile: slower to accommodate scroll + delay. Desktop: fast 3.33s total
-                const intervalTime = isMobile ? 600 : (3333 / totalFields);
+                // Mobile: faster interval with aggressive scrolling. Desktop: fast 3.33s total
+                const intervalTime = isMobile ? 500 : (3333 / totalFields);
                 let currentField = 0;
                 let startTime = Date.now();
 
@@ -2012,14 +2012,14 @@
                             // Mobile: scroll to EVERY field (including first), show empty, then fill
                             const fieldRect = fieldElement.getBoundingClientRect();
                             const absoluteTop = fieldRect.top + window.pageYOffset;
-                            // Scroll way past the field - scroll much further down the page
-                            window.scrollTo({ top: absoluteTop + 200, behavior: 'auto' });
+                            // Scroll way down the page - aggressive offset
+                            window.scrollTo({ top: absoluteTop + 600, behavior: 'auto' });
 
-                            // Delay so user sees empty field before it fills
+                            // Quick delay so user sees empty field before it fills
                             setTimeout(() => {
                                 fieldElement.querySelector('p').textContent = value;
                                 fieldElement.classList.add('filled');
-                            }, 250);
+                            }, 150);
                         } else {
                             // Desktop: fill immediately
                             fieldElement.querySelector('p').textContent = value;
@@ -2203,8 +2203,8 @@
 
             // Animate filling fields
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-            // Mobile: slower to accommodate scroll + delay. Desktop: fast 3.33s total
-            const intervalTime = isMobile ? 600 : (3333 / totalFields);
+            // Mobile: faster interval with aggressive scrolling. Desktop: fast 3.33s total
+            const intervalTime = isMobile ? 500 : (3333 / totalFields);
             let currentField = 0;
 
             const fillInterval = setInterval(() => {
@@ -2216,14 +2216,14 @@
                         // Mobile: scroll to EVERY field (including first), show empty, then fill
                         const fieldRect = fieldElement.getBoundingClientRect();
                         const absoluteTop = fieldRect.top + window.pageYOffset;
-                        // Scroll way past the field - scroll much further down the page
-                        window.scrollTo({ top: absoluteTop + 200, behavior: 'auto' });
+                        // Scroll way down the page - aggressive offset
+                        window.scrollTo({ top: absoluteTop + 600, behavior: 'auto' });
 
-                        // Delay so user sees empty field before it fills
+                        // Quick delay so user sees empty field before it fills
                         setTimeout(() => {
                             fieldElement.querySelector('p').textContent = value;
                             fieldElement.classList.add('filled');
-                        }, 250);
+                        }, 150);
                     } else {
                         // Desktop: fill immediately
                         fieldElement.querySelector('p').textContent = value;
