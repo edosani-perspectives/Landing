@@ -2350,7 +2350,7 @@
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
-                    // Step 1: Scroll parent Framer page to show field (same as ASAM)
+                    // Step 1: Scroll parent Framer page to show field
                     const isInIframe = window.self !== window.top;
                     if (isInIframe) {
                         // In iframe: scroll parent Framer page (field more centered)
@@ -2358,7 +2358,7 @@
                         const absoluteTop = fieldRect.top + window.pageYOffset;
                         window.parent.postMessage({
                             type: "SCROLL_TO_POSITION",
-                            scrollTo: absoluteTop - 400
+                            scrollTo: absoluteTop - 1200
                         }, "https://www.perspectiveshealth.ai");
                     } else {
                         // Standalone: scroll this page
