@@ -1821,6 +1821,9 @@
     </div>
 
     <script>
+        // Flag to track if a demo is currently running
+        let demoRunning = false;
+
         // Patient transcript data
         const transcript = [
             { speaker: 'clinician', text: "Thanks for coming in today. Can you tell me about what brings you here?" },
@@ -1967,6 +1970,8 @@
 
         // Start the demo - fill the already visible form
         function startDemo() {
+            demoRunning = true;
+
             const fillButton = document.getElementById('fill-btn');
             const progressContainer = document.getElementById('progress-container');
             const progressBar = document.getElementById('progress-bar');
@@ -2048,9 +2053,13 @@
                             document.getElementById('timer').textContent = elapsed;
 
                             clearInterval(audioAnimation);
+                            demoRunning = false;
 
                             // Scroll to Progress Notes button after completion
                             setTimeout(() => {
+                                // Only scroll if no other demo is running
+                                if (demoRunning) return;
+
                                 const progressSection = document.getElementById('progress-demo');
                                 if (progressSection) {
                                     const isInIframe = window.self !== window.top;
@@ -2243,6 +2252,8 @@
 
         // Start progress note demo
         function startProgressDemo() {
+            demoRunning = true;
+
             const fillButton = document.getElementById('fill-btn-progress');
             const progressContainer = document.getElementById('progress-container-note');
             const progressBar = document.getElementById('progress-bar-note');
@@ -2301,6 +2312,7 @@
                         // All done - trigger completion logic
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
+                        demoRunning = false;
                         document.getElementById('value-card-progress-1').classList.add('show');
                         document.getElementById('value-card-progress-2').classList.add('show');
                         document.getElementById('value-card-progress-3').classList.add('show');
@@ -2329,6 +2341,7 @@
 
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
+                        demoRunning = false;
 
                         // Don't scroll after completion - value props already visible
                         // User can scroll freely to see CTA button if needed
@@ -2400,6 +2413,7 @@
                         clearInterval(fillInterval);
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
+                        demoRunning = false;
 
                         // Ensure all cards are visible
                         document.getElementById('value-card-progress-1').classList.add('show');
