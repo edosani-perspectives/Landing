@@ -2325,6 +2325,25 @@
 
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
+
+                        // Scroll to Start Free Trial button after completion
+                        setTimeout(() => {
+                            const ctaSection = document.querySelector('.demo-cta-section');
+                            if (ctaSection) {
+                                const isInIframe = window.self !== window.top;
+                                if (isInIframe) {
+                                    const ctaRect = ctaSection.getBoundingClientRect();
+                                    const absoluteTop = ctaRect.top + window.pageYOffset;
+                                    window.parent.postMessage({
+                                        type: "SCROLL_TO_POSITION",
+                                        scrollTo: absoluteTop - 300
+                                    }, "https://www.perspectiveshealth.ai");
+                                } else {
+                                    ctaSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }
+                            }
+                        }, 800);
+
                         return;
                     }
 
@@ -2339,7 +2358,7 @@
                         const absoluteTop = fieldRect.top + window.pageYOffset;
                         window.parent.postMessage({
                             type: "SCROLL_TO_POSITION",
-                            scrollTo: absoluteTop - 800
+                            scrollTo: absoluteTop - 400
                         }, "https://www.perspectiveshealth.ai");
                     } else {
                         // Standalone: scroll this page
