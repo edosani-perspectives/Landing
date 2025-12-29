@@ -2014,8 +2014,8 @@
                             return;
                         }
 
-                        // After field 10, switch to instant fill for remaining fields
-                        if (currentField >= 10) {
+                        // After field 5, switch to instant fill for remaining fields
+                        if (currentField >= 5) {
                             // Fill all remaining fields instantly
                             for (let i = currentField; i < totalFields; i++) {
                                 const fieldElement = document.getElementById(`field-${i}`);
@@ -2039,6 +2039,25 @@
                             document.getElementById('timer').textContent = elapsed;
 
                             clearInterval(audioAnimation);
+
+                            // Scroll to Progress Notes header after completion
+                            setTimeout(() => {
+                                const progressSection = document.getElementById('progress-demo');
+                                if (progressSection) {
+                                    const isInIframe = window.self !== window.top;
+                                    if (isInIframe) {
+                                        const sectionRect = progressSection.getBoundingClientRect();
+                                        const absoluteTop = sectionRect.top + window.pageYOffset;
+                                        window.parent.postMessage({
+                                            type: "SCROLL_TO_POSITION",
+                                            scrollTo: absoluteTop - 200
+                                        }, "https://www.perspectiveshealth.ai");
+                                    } else {
+                                        progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    }
+                                }
+                            }, 800);
+
                             return;
                         }
 
