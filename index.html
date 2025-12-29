@@ -2003,18 +2003,32 @@
                 let currentField = 0;
                 let startTime = Date.now();
 
+                // Mobile: scroll to first field immediately so user sees where action starts
+                if (isMobile) {
+                    const firstField = document.getElementById('field-0');
+                    if (firstField) {
+                        const fieldRect = firstField.getBoundingClientRect();
+                        const viewportHeight = window.innerHeight;
+                        const absoluteTop = fieldRect.top + window.pageYOffset;
+                        const offset = viewportHeight * 0.3;
+                        window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+                    }
+                }
+
                 const fillInterval = setInterval(() => {
                     if (currentField < totalFields) {
                         const fieldElement = document.getElementById(`field-${currentField}`);
                         const value = fieldElement.getAttribute('data-value');
 
                         if (isMobile) {
-                            // Mobile: scroll to field, show empty, then fill
-                            const fieldRect = fieldElement.getBoundingClientRect();
-                            const viewportHeight = window.innerHeight;
-                            const absoluteTop = fieldRect.top + window.pageYOffset;
-                            const offset = viewportHeight * 0.3; // Position at 30% from top
-                            window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+                            // Mobile: scroll to field (skip first field, already scrolled), show empty, then fill
+                            if (currentField > 0) {
+                                const fieldRect = fieldElement.getBoundingClientRect();
+                                const viewportHeight = window.innerHeight;
+                                const absoluteTop = fieldRect.top + window.pageYOffset;
+                                const offset = viewportHeight * 0.3; // Position at 30% from top
+                                window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+                            }
 
                             // Delay so user sees empty field before it fills
                             setTimeout(() => {
@@ -2208,18 +2222,32 @@
             const intervalTime = isMobile ? 600 : (3333 / totalFields);
             let currentField = 0;
 
+            // Mobile: scroll to first field immediately so user sees where action starts
+            if (isMobile) {
+                const firstField = document.getElementById('field-progress-0');
+                if (firstField) {
+                    const fieldRect = firstField.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+                    const absoluteTop = fieldRect.top + window.pageYOffset;
+                    const offset = viewportHeight * 0.3;
+                    window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+                }
+            }
+
             const fillInterval = setInterval(() => {
                 if (currentField < totalFields) {
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
                     if (isMobile) {
-                        // Mobile: scroll to field, show empty, then fill
-                        const fieldRect = fieldElement.getBoundingClientRect();
-                        const viewportHeight = window.innerHeight;
-                        const absoluteTop = fieldRect.top + window.pageYOffset;
-                        const offset = viewportHeight * 0.3; // Position at 30% from top
-                        window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+                        // Mobile: scroll to field (skip first field, already scrolled), show empty, then fill
+                        if (currentField > 0) {
+                            const fieldRect = fieldElement.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+                            const absoluteTop = fieldRect.top + window.pageYOffset;
+                            const offset = viewportHeight * 0.3; // Position at 30% from top
+                            window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+                        }
 
                         // Delay so user sees empty field before it fills
                         setTimeout(() => {
