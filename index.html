@@ -1372,9 +1372,10 @@
                 width: 100%;
             }
 
+            /* Remove container scroll on mobile - let page scroll naturally */
             .form-container {
-                max-height: 80vh;
-                overflow-y: auto;
+                max-height: none;
+                overflow-y: visible;
             }
 
             .lead-section {
@@ -2414,34 +2415,21 @@
             const isInIframe = window.self !== window.top;
 
             if (isInIframe) {
-                // Desktop trackpad/mouse wheel
-                window.addEventListener("wheel", function (e) {
-                    // prevent the iframe from trying to scroll/bounce
-                    e.preventDefault();
-                    window.parent.postMessage(
-                        { type: "PARENT_SCROLL", deltaY: e.deltaY },
-                        PARENT_ORIGIN
-                    );
-                }, { passive: false });
+                // Only forward scroll on desktop, not mobile
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
-                // Mobile touch scroll
-                let lastY = null;
-                window.addEventListener("touchstart", (e) => {
-                    lastY = e.touches[0].clientY;
-                }, { passive: true });
-
-                window.addEventListener("touchmove", (e) => {
-                    if (lastY == null) return;
-                    const y = e.touches[0].clientY;
-                    const deltaY = lastY - y;
-                    lastY = y;
-
-                    e.preventDefault();
-                    window.parent.postMessage(
-                        { type: "PARENT_SCROLL", deltaY },
-                        PARENT_ORIGIN
-                    );
-                }, { passive: false });
+                if (!isMobile) {
+                    // Desktop trackpad/mouse wheel
+                    window.addEventListener("wheel", function (e) {
+                        // prevent the iframe from trying to scroll/bounce
+                        e.preventDefault();
+                        window.parent.postMessage(
+                            { type: "PARENT_SCROLL", deltaY: e.deltaY },
+                            PARENT_ORIGIN
+                        );
+                    }, { passive: false });
+                }
+                // Mobile: no scroll forwarding, let native scrolling work
             }
         })();
     </script>
