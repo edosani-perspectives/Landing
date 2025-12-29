@@ -2258,6 +2258,20 @@
             }
             progressContainer.classList.add('active');
 
+            // Scroll to show the form area once at the start (mobile only)
+            const isMobileCheck = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            const isInIframe = window.self !== window.top;
+            if (isMobileCheck && isInIframe) {
+                const formElement = document.getElementById('progress-note-form');
+                if (formElement) {
+                    const formRect = formElement.getBoundingClientRect();
+                    window.parent.postMessage({
+                        type: "SCROLL_TO_POSITION",
+                        scrollTo: window.pageYOffset + formRect.top - 150
+                    }, "https://www.perspectiveshealth.ai");
+                }
+            }
+
             // Start audio animation
             const audioAnimation = animateAudioDotsProgress();
 
@@ -2350,50 +2364,33 @@
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
-                    // Step 1: Scroll parent Framer page to show field
-                    const isInIframe = window.self !== window.top;
-                    if (isInIframe) {
-                        // In iframe: scroll parent Framer page (field more centered)
-                        const fieldRect = fieldElement.getBoundingClientRect();
-                        const absoluteTop = fieldRect.top + window.pageYOffset;
-                        window.parent.postMessage({
-                            type: "SCROLL_TO_POSITION",
-                            scrollTo: absoluteTop - 400
-                        }, "https://www.perspectiveshealth.ai");
-                    } else {
-                        // Standalone: scroll this page
-                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
-                    }
-
-                    // Step 2: Wait 200ms for scroll to complete
+                    // No per-field scrolling - form is already positioned from initial scroll
+                    // Just wait a bit, then fill the field
                     setTimeout(() => {
-                        // Step 3: Wait 400ms showing empty field, then fill
-                        setTimeout(() => {
-                            // Step 4: Fill the field
-                            fieldElement.querySelector('p').textContent = value;
-                            fieldElement.classList.add('filled');
+                        // Fill the field
+                        fieldElement.querySelector('p').textContent = value;
+                        fieldElement.classList.add('filled');
 
-                            // Update progress bar and counter
-                            const progress = ((currentField + 1) / totalFields) * 100;
-                            progressBar.style.width = progress + '%';
-                            progressCurrent.textContent = currentField + 1;
+                        // Update progress bar and counter
+                        const progress = ((currentField + 1) / totalFields) * 100;
+                        progressBar.style.width = progress + '%';
+                        progressCurrent.textContent = currentField + 1;
 
-                            // Show value cards
-                            if (currentField === card1Threshold) {
-                                document.getElementById('value-card-progress-1').classList.add('show');
-                            }
-                            if (currentField === card2Threshold) {
-                                document.getElementById('value-card-progress-2').classList.add('show');
-                            }
-                            if (currentField === card3Threshold) {
-                                document.getElementById('value-card-progress-3').classList.add('show');
-                            }
+                        // Show value cards
+                        if (currentField === card1Threshold) {
+                            document.getElementById('value-card-progress-1').classList.add('show');
+                        }
+                        if (currentField === card2Threshold) {
+                            document.getElementById('value-card-progress-2').classList.add('show');
+                        }
+                        if (currentField === card3Threshold) {
+                            document.getElementById('value-card-progress-3').classList.add('show');
+                        }
 
-                            // Step 5: Move to next field after 300ms (see filled field before scrolling)
-                            currentField++;
-                            setTimeout(processNextField, 300);
-                        }, 400);
-                    }, 200);
+                        // Move to next field
+                        currentField++;
+                        setTimeout(processNextField, 500);
+                    }, 400);
                 };
 
                 // Start processing
