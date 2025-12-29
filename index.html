@@ -2058,7 +2058,7 @@
                                         const sectionRect = progressSection.getBoundingClientRect();
                                         const absoluteTop = sectionRect.top + window.pageYOffset;
                                         // Use larger offset to keep heading visible
-                                        const targetScroll = absoluteTop - 900;
+                                        const targetScroll = absoluteTop - 1200;
                                         const scrollPosition = Math.max(0, targetScroll);
                                         window.parent.postMessage({
                                             type: "SCROLL_TO_POSITION",
