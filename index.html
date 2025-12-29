@@ -2049,25 +2049,8 @@
 
                             clearInterval(audioAnimation);
 
-                            // Scroll to Progress Notes button after completion
-                            setTimeout(() => {
-                                const progressSection = document.getElementById('progress-demo');
-                                if (progressSection) {
-                                    const isInIframe = window.self !== window.top;
-                                    if (isInIframe) {
-                                        const sectionRect = progressSection.getBoundingClientRect();
-                                        const absoluteTop = sectionRect.top + window.pageYOffset;
-                                        // Ensure scroll position is never negative
-                                        const scrollPosition = Math.max(0, absoluteTop - 1200);
-                                        window.parent.postMessage({
-                                            type: "SCROLL_TO_POSITION",
-                                            scrollTo: scrollPosition
-                                        }, "https://www.perspectiveshealth.ai");
-                                    } else {
-                                        progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                    }
-                                }
-                            }, 1000);
+                            // Don't scroll after ASAM completion - causes scroll lock issues
+                            // User can scroll down to Progress Notes manually
 
                             return;
                         }
