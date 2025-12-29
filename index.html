@@ -1998,105 +1998,120 @@
 
                 // Animate filling fields
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-                // Mobile: MUCH longer interval so scroll completes before next field. Desktop: fast 3.33s total
-                const intervalTime = isMobile ? 1000 : (3333 / totalFields);
                 let currentField = 0;
                 let startTime = Date.now();
 
-                const fillInterval = setInterval(() => {
-                    if (currentField < totalFields) {
+                // Mobile: process fields SEQUENTIALLY (one completes before next starts)
+                // Desktop: use fast setInterval
+                if (isMobile) {
+                    const processNextField = () => {
+                        if (currentField >= totalFields) {
+                            // All done - trigger completion logic
+                            clearInterval(audioAnimation);
+                            document.getElementById('value-card-1').classList.add('show');
+                            document.getElementById('value-card-2').classList.add('show');
+                            document.getElementById('value-card-3').classList.add('show');
+                            return;
+                        }
+
                         const fieldElement = document.getElementById(`field-${currentField}`);
                         const value = fieldElement.getAttribute('data-value');
 
-                        if (isMobile) {
-                            // Mobile: scroll to CURRENT field, center it
-                            fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                        // Step 1: Scroll to field
+                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
 
-                            // Wait 500ms so user definitely sees empty field before it fills
-                            setTimeout(() => {
-                                fieldElement.querySelector('p').textContent = value;
-                                fieldElement.classList.add('filled');
-                            }, 500);
-                        } else {
-                            // Desktop: fill immediately
+                        // Step 2: Wait 600ms showing empty field
+                        setTimeout(() => {
+                            // Step 3: Fill the field
                             fieldElement.querySelector('p').textContent = value;
                             fieldElement.classList.add('filled');
-                        }
 
-                        // Update progress bar and counter
-                        const progress = ((currentField + 1) / totalFields) * 100;
-                        progressBar.style.width = progress + '%';
-                        progressCurrent.textContent = currentField + 1;
+                            // Update progress bar and counter
+                            const progress = ((currentField + 1) / totalFields) * 100;
+                            progressBar.style.width = progress + '%';
+                            progressCurrent.textContent = currentField + 1;
 
-                        // Smooth auto-scroll disabled for iframe embedding (no internal scrolling)
-                        // if (currentField >= Math.floor(totalFields * 0.15) && currentField % 2 === 0) {
-                        //     const blockPosition = currentField === totalFields - 1 ? 'end' : 'nearest';
-                        //     fieldElement.scrollIntoView({ behavior: 'smooth', block: blockPosition, inline: 'nearest' });
-                        // }
+                            // Update timer
+                            const elapsed = Math.round((Date.now() - startTime) / 1000);
+                            document.getElementById('timer').textContent = elapsed;
 
-                        // Update timer
-                        const elapsed = Math.round((Date.now() - startTime) / 1000);
-                        document.getElementById('timer').textContent = elapsed;
-
-                        // Show value cards procedurally with slide-in animation and scroll
-                        if (currentField === card1Threshold) {
-                            document.getElementById('value-card-1').classList.add('show');
-                            // Scroll parent page down a bit
-                            setTimeout(() => {
-                                window.parent.postMessage({
-                                    type: "PARENT_SCROLL",
-                                    deltaY: 150
-                                }, "https://www.perspectiveshealth.ai");
-                            }, 200);
-                        }
-                        if (currentField === card2Threshold) {
-                            document.getElementById('value-card-2').classList.add('show');
-                            // Scroll parent page down a bit more
-                            setTimeout(() => {
-                                window.parent.postMessage({
-                                    type: "PARENT_SCROLL",
-                                    deltaY: 150
-                                }, "https://www.perspectiveshealth.ai");
-                            }, 200);
-                        }
-                        if (currentField === card3Threshold) {
-                            document.getElementById('value-card-3').classList.add('show');
-                            // Scroll parent page down to show third card
-                            setTimeout(() => {
-                                window.parent.postMessage({
-                                    type: "PARENT_SCROLL",
-                                    deltaY: 200
-                                }, "https://www.perspectiveshealth.ai");
-                            }, 200);
-                        }
-
-                        currentField++;
-                    } else {
-                        clearInterval(fillInterval);
-                        clearInterval(audioAnimation);
-
-                        // Ensure all cards are visible
-                        document.getElementById('value-card-1').classList.add('show');
-                        document.getElementById('value-card-2').classList.add('show');
-                        document.getElementById('value-card-3').classList.add('show');
-
-                        // Scroll to Progress Notes demo after animation completes
-                        setTimeout(() => {
-                            const progressDemo = document.getElementById('progress-demo');
-                            if (progressDemo) {
-                                const yOffset = -80; // Negative value to land higher
-                                const rect = progressDemo.getBoundingClientRect();
-                                const absoluteTop = rect.top + window.pageYOffset;
-
-                                // Send scroll command to parent Framer page
-                                window.parent.postMessage({
-                                    type: "SCROLL_TO_POSITION",
-                                    scrollTo: absoluteTop + yOffset
-                                }, "https://www.perspectiveshealth.ai");
+                            // Show value cards
+                            if (currentField === card1Threshold) {
+                                document.getElementById('value-card-1').classList.add('show');
                             }
-                        }, 500);
-                    }
-                }, intervalTime);
+                            if (currentField === card2Threshold) {
+                                document.getElementById('value-card-2').classList.add('show');
+                            }
+                            if (currentField === card3Threshold) {
+                                document.getElementById('value-card-3').classList.add('show');
+                            }
+
+                            // Step 4: Move to next field after 200ms
+                            currentField++;
+                            setTimeout(processNextField, 200);
+                        }, 600);
+                    };
+
+                    // Start processing
+                    processNextField();
+                } else {
+                    // Desktop: use setInterval for fast filling
+                    const intervalTime = 3333 / totalFields;
+                    const fillInterval = setInterval(() => {
+                        if (currentField < totalFields) {
+                            const fieldElement = document.getElementById(`field-${currentField}`);
+                            const value = fieldElement.getAttribute('data-value');
+                            fieldElement.querySelector('p').textContent = value;
+                            fieldElement.classList.add('filled');
+
+                            // Update progress bar and counter
+                            const progress = ((currentField + 1) / totalFields) * 100;
+                            progressBar.style.width = progress + '%';
+                            progressCurrent.textContent = currentField + 1;
+
+                            // Update timer
+                            const elapsed = Math.round((Date.now() - startTime) / 1000);
+                            document.getElementById('timer').textContent = elapsed;
+
+                            // Show value cards
+                            if (currentField === card1Threshold) {
+                                document.getElementById('value-card-1').classList.add('show');
+                            }
+                            if (currentField === card2Threshold) {
+                                document.getElementById('value-card-2').classList.add('show');
+                            }
+                            if (currentField === card3Threshold) {
+                                document.getElementById('value-card-3').classList.add('show');
+                            }
+
+                            currentField++;
+                        } else {
+                            clearInterval(fillInterval);
+                            clearInterval(audioAnimation);
+
+                            // Ensure all cards are visible
+                            document.getElementById('value-card-1').classList.add('show');
+                            document.getElementById('value-card-2').classList.add('show');
+                            document.getElementById('value-card-3').classList.add('show');
+
+                            // Scroll to Progress Notes demo after animation completes
+                            setTimeout(() => {
+                                const progressDemo = document.getElementById('progress-demo');
+                                if (progressDemo) {
+                                    const yOffset = -80; // Negative value to land higher
+                                    const rect = progressDemo.getBoundingClientRect();
+                                    const absoluteTop = rect.top + window.pageYOffset;
+
+                                    // Send scroll command to parent Framer page
+                                    window.parent.postMessage({
+                                        type: "SCROLL_TO_POSITION",
+                                        scrollTo: absoluteTop + yOffset
+                                    }, "https://www.perspectiveshealth.ai");
+                                }
+                            }, 500);
+                        }
+                    }, intervalTime);
+                }
             }, 750); // 0.75 second delay before filling starts
         }
 
@@ -2200,90 +2215,108 @@
 
             // Animate filling fields
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-            // Mobile: MUCH longer interval so scroll completes before next field. Desktop: fast 3.33s total
-            const intervalTime = isMobile ? 1000 : (3333 / totalFields);
             let currentField = 0;
 
-            const fillInterval = setInterval(() => {
-                if (currentField < totalFields) {
+            // Mobile: process fields SEQUENTIALLY (one completes before next starts)
+            // Desktop: use fast setInterval
+            if (isMobile) {
+                const processNextField = () => {
+                    if (currentField >= totalFields) {
+                        // All done - trigger completion logic
+                        clearInterval(audioAnimation);
+                        clearInterval(statusInterval);
+                        document.getElementById('value-card-progress-1').classList.add('show');
+                        document.getElementById('value-card-progress-2').classList.add('show');
+                        document.getElementById('value-card-progress-3').classList.add('show');
+                        return;
+                    }
+
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
 
-                    if (isMobile) {
-                        // Mobile: scroll to CURRENT field, center it
-                        fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
+                    // Step 1: Scroll to field
+                    fieldElement.scrollIntoView({ behavior: 'auto', block: 'center' });
 
-                        // Wait 500ms so user definitely sees empty field before it fills
-                        setTimeout(() => {
-                            fieldElement.querySelector('p').textContent = value;
-                            fieldElement.classList.add('filled');
-                        }, 500);
-                    } else {
-                        // Desktop: fill immediately
+                    // Step 2: Wait 600ms showing empty field
+                    setTimeout(() => {
+                        // Step 3: Fill the field
                         fieldElement.querySelector('p').textContent = value;
                         fieldElement.classList.add('filled');
-                    }
 
-                    // Update progress bar and counter
-                    const progress = ((currentField + 1) / totalFields) * 100;
-                    progressBar.style.width = progress + '%';
-                    progressCurrent.textContent = currentField + 1;
+                        // Update progress bar and counter
+                        const progress = ((currentField + 1) / totalFields) * 100;
+                        progressBar.style.width = progress + '%';
+                        progressCurrent.textContent = currentField + 1;
 
-                    // Show value cards procedurally with scroll
-                    if (currentField === card1Threshold) {
+                        // Show value cards
+                        if (currentField === card1Threshold) {
+                            document.getElementById('value-card-progress-1').classList.add('show');
+                        }
+                        if (currentField === card2Threshold) {
+                            document.getElementById('value-card-progress-2').classList.add('show');
+                        }
+                        if (currentField === card3Threshold) {
+                            document.getElementById('value-card-progress-3').classList.add('show');
+                        }
+
+                        // Step 4: Move to next field after 200ms
+                        currentField++;
+                        setTimeout(processNextField, 200);
+                    }, 600);
+                };
+
+                // Start processing
+                processNextField();
+            } else {
+                // Desktop: use setInterval for fast filling
+                const intervalTime = 3333 / totalFields;
+                const fillInterval = setInterval(() => {
+                    if (currentField < totalFields) {
+                        const fieldElement = document.getElementById(`field-progress-${currentField}`);
+                        const value = progressNoteValues[`field-progress-${currentField}`];
+                        fieldElement.querySelector('p').textContent = value;
+                        fieldElement.classList.add('filled');
+
+                        // Update progress bar and counter
+                        const progress = ((currentField + 1) / totalFields) * 100;
+                        progressBar.style.width = progress + '%';
+                        progressCurrent.textContent = currentField + 1;
+
+                        // Show value cards
+                        if (currentField === card1Threshold) {
+                            document.getElementById('value-card-progress-1').classList.add('show');
+                        }
+                        if (currentField === card2Threshold) {
+                            document.getElementById('value-card-progress-2').classList.add('show');
+                        }
+                        if (currentField === card3Threshold) {
+                            document.getElementById('value-card-progress-3').classList.add('show');
+                        }
+
+                        currentField++;
+                    } else {
+                        clearInterval(fillInterval);
+                        clearInterval(audioAnimation);
+                        clearInterval(statusInterval);
+
+                        // Ensure all cards are visible
                         document.getElementById('value-card-progress-1').classList.add('show');
-                        // Scroll parent page down a bit
-                        setTimeout(() => {
-                            window.parent.postMessage({
-                                type: "PARENT_SCROLL",
-                                deltaY: 150
-                            }, "https://www.perspectiveshealth.ai");
-                        }, 200);
-                    }
-                    if (currentField === card2Threshold) {
                         document.getElementById('value-card-progress-2').classList.add('show');
-                        // Scroll parent page down a bit more
-                        setTimeout(() => {
-                            window.parent.postMessage({
-                                type: "PARENT_SCROLL",
-                                deltaY: 150
-                            }, "https://www.perspectiveshealth.ai");
-                        }, 200);
-                    }
-                    if (currentField === card3Threshold) {
                         document.getElementById('value-card-progress-3').classList.add('show');
-                        // Scroll parent page down to show third card
+
+                        // Update status to completion
+                        progressStatusText.textContent = 'Note Complete!';
+
+                        // Scroll down to show the CTA button
                         setTimeout(() => {
                             window.parent.postMessage({
                                 type: "PARENT_SCROLL",
-                                deltaY: 150
+                                deltaY: 600
                             }, "https://www.perspectiveshealth.ai");
-                        }, 200);
+                        }, 500);
                     }
-
-                    currentField++;
-                } else {
-                    clearInterval(fillInterval);
-                    clearInterval(audioAnimation);
-                    clearInterval(statusInterval);
-
-                    // Ensure all cards are visible
-                    document.getElementById('value-card-progress-1').classList.add('show');
-                    document.getElementById('value-card-progress-2').classList.add('show');
-                    document.getElementById('value-card-progress-3').classList.add('show');
-
-                    // Update status to completion
-                    progressStatusText.textContent = 'Note Complete!';
-
-                    // Scroll down to show the CTA button
-                    setTimeout(() => {
-                        window.parent.postMessage({
-                            type: "PARENT_SCROLL",
-                            deltaY: 600
-                        }, "https://www.perspectiveshealth.ai");
-                    }, 500);
-                }
-            }, intervalTime);
+                }, intervalTime);
+            }
         }
 
         // Handle form submission
