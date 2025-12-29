@@ -2042,18 +2042,18 @@
 
                             // Scroll to Progress Notes button after completion
                             setTimeout(() => {
-                                const progressButton = document.getElementById('fill-btn-progress');
-                                if (progressButton) {
+                                const progressRecorder = document.getElementById('recorder-progress');
+                                if (progressRecorder) {
                                     const isInIframe = window.self !== window.top;
                                     if (isInIframe) {
-                                        const buttonRect = progressButton.getBoundingClientRect();
-                                        const absoluteTop = buttonRect.top + window.pageYOffset;
+                                        const recorderRect = progressRecorder.getBoundingClientRect();
+                                        const absoluteTop = recorderRect.top + window.pageYOffset;
                                         window.parent.postMessage({
                                             type: "SCROLL_TO_POSITION",
-                                            scrollTo: absoluteTop - 300
+                                            scrollTo: absoluteTop - 600
                                         }, "https://www.perspectiveshealth.ai");
                                     } else {
-                                        progressButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                        progressRecorder.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                     }
                                 }
                             }, 800);
