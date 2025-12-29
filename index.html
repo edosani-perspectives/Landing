@@ -1411,7 +1411,7 @@
         </div>
 
         <div class="demo-cta-section">
-            <a href="#lead-form-section" class="demo-cta-btn">Start Your Free Trial</a>
+            <button onclick="scrollToForm()" class="demo-cta-btn">Start Your Free Trial</button>
         </div>
     </section>
 
@@ -2083,7 +2083,11 @@
 
         function scrollToForm() {
             const leadForm = document.getElementById('lead-form-section');
-            leadForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (leadForm) {
+                const yOffset = -80; // Negative value to land higher
+                const y = leadForm.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
         }
 
         // Initialize
