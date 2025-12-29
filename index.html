@@ -2258,22 +2258,25 @@
             }
             progressContainer.classList.add('active');
 
+            // Start audio animation
+            const audioAnimation = animateAudioDotsProgress();
+
             // Scroll to show the form area once at the start (mobile only)
+            // Wait for layout to settle after demo-active class is applied
             const isMobileCheck = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
             const isInIframe = window.self !== window.top;
             if (isMobileCheck && isInIframe) {
-                const formElement = document.getElementById('progress-note-form');
-                if (formElement) {
-                    const formRect = formElement.getBoundingClientRect();
-                    window.parent.postMessage({
-                        type: "SCROLL_TO_POSITION",
-                        scrollTo: window.pageYOffset + formRect.top - 150
-                    }, "https://www.perspectiveshealth.ai");
-                }
+                setTimeout(() => {
+                    const formElement = document.getElementById('progress-note-form');
+                    if (formElement) {
+                        const formRect = formElement.getBoundingClientRect();
+                        window.parent.postMessage({
+                            type: "SCROLL_TO_POSITION",
+                            scrollTo: window.pageYOffset + formRect.top - 150
+                        }, "https://www.perspectiveshealth.ai");
+                    }
+                }, 200); // Wait for layout to settle
             }
-
-            // Start audio animation
-            const audioAnimation = animateAudioDotsProgress();
 
             // Status messages to cycle through
             const statusMessages = [
