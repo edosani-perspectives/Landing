@@ -2012,8 +2012,8 @@
                             // Mobile: scroll to EVERY field (including first), show empty, then fill
                             const fieldRect = fieldElement.getBoundingClientRect();
                             const absoluteTop = fieldRect.top + window.pageYOffset;
-                            // Scroll aggressively - put field near very top of screen
-                            window.scrollTo({ top: absoluteTop - 100, behavior: 'auto' });
+                            // Scroll way past the field - scroll much further down the page
+                            window.scrollTo({ top: absoluteTop + 200, behavior: 'auto' });
 
                             // Delay so user sees empty field before it fills
                             setTimeout(() => {
@@ -2216,8 +2216,8 @@
                         // Mobile: scroll to EVERY field (including first), show empty, then fill
                         const fieldRect = fieldElement.getBoundingClientRect();
                         const absoluteTop = fieldRect.top + window.pageYOffset;
-                        // Scroll aggressively - put field near very top of screen
-                        window.scrollTo({ top: absoluteTop - 100, behavior: 'auto' });
+                        // Scroll way past the field - scroll much further down the page
+                        window.scrollTo({ top: absoluteTop + 200, behavior: 'auto' });
 
                         // Delay so user sees empty field before it fills
                         setTimeout(() => {
