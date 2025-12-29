@@ -2068,6 +2068,7 @@
                                         // Use larger offset to keep heading visible
                                         const targetScroll = absoluteTop - 1200;
                                         const scrollPosition = Math.max(0, targetScroll);
+                                        console.log(`[ASAM Complete] Scrolling to Progress Notes:`, scrollPosition, `(raw: ${targetScroll})`);
                                         window.parent.postMessage({
                                             type: "SCROLL_TO_POSITION",
                                             scrollTo: scrollPosition
@@ -2093,6 +2094,7 @@
                             const absoluteTop = fieldRect.top + window.pageYOffset;
                             // Ensure scroll position is never negative
                             const scrollPosition = Math.max(0, absoluteTop - 400);
+                            console.log(`[ASAM Field ${currentField}] Scrolling to:`, scrollPosition, `(raw: ${absoluteTop - 400})`);
                             window.parent.postMessage({
                                 type: "SCROLL_TO_POSITION",
                                 scrollTo: scrollPosition
@@ -2252,8 +2254,11 @@
 
         // Start progress note demo
         function startProgressDemo() {
+            console.log('[Progress Notes] Starting demo');
+
             // Cancel any pending ASAM scroll
             if (asamScrollTimeout) {
+                console.log('[Progress Notes] Cleared pending ASAM scroll');
                 clearTimeout(asamScrollTimeout);
                 asamScrollTimeout = null;
             }
