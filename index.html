@@ -284,25 +284,60 @@
         .demo-cta-btn {
             background: linear-gradient(135deg, #7530c5 0%, #9333ea 100%);
             color: white;
-            padding: 1.125rem 3rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1.125rem;
+            padding: 1.75rem 4.5rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.5rem;
             border: none;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow:
-                0 10px 30px rgba(117, 48, 197, 0.35),
-                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+                0 15px 40px rgba(117, 48, 197, 0.45),
+                0 0 0 2px rgba(255, 255, 255, 0.15) inset;
+            animation: pulse-cta 2.5s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-cta-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: shimmer-cta 3s linear infinite;
+        }
+
+        @keyframes pulse-cta {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 15px 40px rgba(117, 48, 197, 0.45), 0 0 0 2px rgba(255, 255, 255, 0.15) inset;
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 20px 50px rgba(117, 48, 197, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.25) inset;
+            }
+        }
+
+        @keyframes shimmer-cta {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
         }
 
         .demo-cta-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.02);
             box-shadow:
-                0 15px 40px rgba(117, 48, 197, 0.45),
-                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+                0 20px 50px rgba(117, 48, 197, 0.6),
+                0 0 0 2px rgba(255, 255, 255, 0.3) inset;
+            animation: none;
         }
 
         .demo-eyebrow {
@@ -1762,25 +1797,36 @@
                         const elapsed = Math.round((Date.now() - startTime) / 1000);
                         document.getElementById('timer').textContent = elapsed;
 
-                        // Show value cards procedurally with slide-in animation
+                        // Show value cards procedurally with slide-in animation and scroll
                         if (currentField === card1Threshold) {
                             document.getElementById('value-card-1').classList.add('show');
+                            // Scroll parent page down a bit
+                            setTimeout(() => {
+                                window.parent.postMessage({
+                                    type: "PARENT_SCROLL",
+                                    deltaY: 150
+                                }, "https://www.perspectiveshealth.ai");
+                            }, 200);
                         }
                         if (currentField === card2Threshold) {
                             document.getElementById('value-card-2').classList.add('show');
+                            // Scroll parent page down a bit more
+                            setTimeout(() => {
+                                window.parent.postMessage({
+                                    type: "PARENT_SCROLL",
+                                    deltaY: 150
+                                }, "https://www.perspectiveshealth.ai");
+                            }, 200);
                         }
                         if (currentField === card3Threshold) {
                             document.getElementById('value-card-3').classList.add('show');
-                            // Internal scrolling disabled for iframe embedding
-                            // setTimeout(() => {
-                            //     const card3 = document.getElementById('value-card-3');
-                            //     if (card3) {
-                            //         card3.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                            //         setTimeout(() => {
-                            //             window.scrollBy({ top: 100, behavior: 'smooth' });
-                            //         }, 400);
-                            //     }
-                            // }, 300);
+                            // Scroll parent page down to show third card
+                            setTimeout(() => {
+                                window.parent.postMessage({
+                                    type: "PARENT_SCROLL",
+                                    deltaY: 200
+                                }, "https://www.perspectiveshealth.ai");
+                            }, 200);
                         }
 
                         currentField++;
@@ -1921,15 +1967,36 @@
                     progressBar.style.width = progress + '%';
                     progressCurrent.textContent = currentField + 1;
 
-                    // Show value cards procedurally
+                    // Show value cards procedurally with scroll
                     if (currentField === card1Threshold) {
                         document.getElementById('value-card-progress-1').classList.add('show');
+                        // Scroll parent page down a bit
+                        setTimeout(() => {
+                            window.parent.postMessage({
+                                type: "PARENT_SCROLL",
+                                deltaY: 150
+                            }, "https://www.perspectiveshealth.ai");
+                        }, 200);
                     }
                     if (currentField === card2Threshold) {
                         document.getElementById('value-card-progress-2').classList.add('show');
+                        // Scroll parent page down a bit more
+                        setTimeout(() => {
+                            window.parent.postMessage({
+                                type: "PARENT_SCROLL",
+                                deltaY: 150
+                            }, "https://www.perspectiveshealth.ai");
+                        }, 200);
                     }
                     if (currentField === card3Threshold) {
                         document.getElementById('value-card-progress-3').classList.add('show');
+                        // Scroll parent page down to show third card
+                        setTimeout(() => {
+                            window.parent.postMessage({
+                                type: "PARENT_SCROLL",
+                                deltaY: 150
+                            }, "https://www.perspectiveshealth.ai");
+                        }, 200);
                     }
 
                     currentField++;
@@ -1950,7 +2017,7 @@
                     setTimeout(() => {
                         window.parent.postMessage({
                             type: "PARENT_SCROLL",
-                            deltaY: 400
+                            deltaY: 600
                         }, "https://www.perspectiveshealth.ai");
                     }, 500);
                 }
