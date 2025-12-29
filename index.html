@@ -1483,9 +1483,43 @@
         .form-container::-webkit-scrollbar-thumb:hover {
             background: #5f26a3;
         }
+
+        /* Debug panel - mobile only */
+        .debug-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            color: #0f0;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 10px;
+            z-index: 99999;
+            max-width: 200px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .debug-panel {
+                display: block;
+            }
+        }
+
+        .debug-panel div {
+            margin: 2px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body>
+    <!-- Debug Panel - Mobile Only -->
+    <div class="debug-panel" id="debug-panel">
+        <div style="color: #fff; font-weight: bold;">SCROLL DEBUG</div>
+        <div id="debug-log"></div>
+    </div>
     <!-- Demo Section -->
     <section id="demo" class="demo-section">
         <div class="demo-section-header">
@@ -1826,6 +1860,22 @@
         // Store timeout ID to clear ASAM scroll if needed
         let asamScrollTimeout = null;
 
+        // Debug logger function
+        let debugMessages = [];
+        function debugLog(message, value) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMsg = `${timestamp}: ${message}${value !== undefined ? ' ' + value : ''}`;
+            console.log(logMsg);
+
+            debugMessages.push(logMsg);
+            if (debugMessages.length > 5) debugMessages.shift(); // Keep last 5
+
+            const debugLogEl = document.getElementById('debug-log');
+            if (debugLogEl) {
+                debugLogEl.innerHTML = debugMessages.map(msg => `<div>${msg}</div>`).join('');
+            }
+        }
+
         // Patient transcript data
         const transcript = [
             { speaker: 'clinician', text: "Thanks for coming in today. Can you tell me about what brings you here?" },
@@ -2068,7 +2118,7 @@
                                         // Use larger offset to keep heading visible
                                         const targetScroll = absoluteTop - 1200;
                                         const scrollPosition = Math.max(0, targetScroll);
-                                        console.log(`[ASAM Complete] Scrolling to Progress Notes:`, scrollPosition, `(raw: ${targetScroll})`);
+                                        debugLog('ASAM→Prog:', scrollPosition);
                                         window.parent.postMessage({
                                             type: "SCROLL_TO_POSITION",
                                             scrollTo: scrollPosition
@@ -2094,7 +2144,7 @@
                             const absoluteTop = fieldRect.top + window.pageYOffset;
                             // Ensure scroll position is never negative
                             const scrollPosition = Math.max(0, absoluteTop - 400);
-                            console.log(`[ASAM Field ${currentField}] Scrolling to:`, scrollPosition, `(raw: ${absoluteTop - 400})`);
+                            debugLog(`ASAM F${currentField}:`, scrollPosition);
                             window.parent.postMessage({
                                 type: "SCROLL_TO_POSITION",
                                 scrollTo: scrollPosition
@@ -2254,11 +2304,11 @@
 
         // Start progress note demo
         function startProgressDemo() {
-            console.log('[Progress Notes] Starting demo');
+            debugLog('Prog: Start');
 
             // Cancel any pending ASAM scroll
             if (asamScrollTimeout) {
-                console.log('[Progress Notes] Cleared pending ASAM scroll');
+                debugLog('Prog: Cleared');
                 clearTimeout(asamScrollTimeout);
                 asamScrollTimeout = null;
             }
