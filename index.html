@@ -1362,6 +1362,11 @@
                 gap: 2rem;
             }
 
+            /* Keep single column layout even when demo is active */
+            .demo-container.demo-active {
+                grid-template-columns: 1fr;
+            }
+
             .value-props {
                 position: relative;
                 top: auto;
