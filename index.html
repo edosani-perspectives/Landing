@@ -2326,23 +2326,8 @@
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
 
-                        // Scroll to show value props and Start Free Trial button
-                        setTimeout(() => {
-                            const valueProps = document.getElementById('value-props-progress');
-                            if (valueProps) {
-                                const isInIframe = window.self !== window.top;
-                                if (isInIframe) {
-                                    const propsRect = valueProps.getBoundingClientRect();
-                                    const absoluteTop = propsRect.top + window.pageYOffset;
-                                    window.parent.postMessage({
-                                        type: "SCROLL_TO_POSITION",
-                                        scrollTo: absoluteTop - 600
-                                    }, "https://www.perspectiveshealth.ai");
-                                } else {
-                                    valueProps.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                }
-                            }
-                        }, 800);
+                        // Don't scroll after completion - value props already visible
+                        // User can scroll freely to see CTA button if needed
 
                         return;
                     }
