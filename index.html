@@ -15,6 +15,11 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden; /* no internal scrolling for iframe */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: #fafbfc;
@@ -2096,6 +2101,42 @@
         initScrollAnimations();
         initStickyCTA();
         initCarousel();
+    </script>
+
+    <!-- Iframe scroll handling for Framer embedding -->
+    <script>
+        (function () {
+            const PARENT_ORIGIN = "https://www.perspectiveshealth.ai";
+
+            // Desktop trackpad/mouse wheel
+            window.addEventListener("wheel", function (e) {
+                // prevent the iframe from trying to scroll/bounce
+                e.preventDefault();
+                window.parent.postMessage(
+                    { type: "PARENT_SCROLL", deltaY: e.deltaY },
+                    PARENT_ORIGIN
+                );
+            }, { passive: false });
+
+            // Mobile touch scroll
+            let lastY = null;
+            window.addEventListener("touchstart", (e) => {
+                lastY = e.touches[0].clientY;
+            }, { passive: true });
+
+            window.addEventListener("touchmove", (e) => {
+                if (lastY == null) return;
+                const y = e.touches[0].clientY;
+                const deltaY = lastY - y;
+                lastY = y;
+
+                e.preventDefault();
+                window.parent.postMessage(
+                    { type: "PARENT_SCROLL", deltaY },
+                    PARENT_ORIGIN
+                );
+            }, { passive: false });
+        })();
     </script>
 </body>
 </html>
