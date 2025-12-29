@@ -1996,8 +1996,10 @@
                 const card2Threshold = Math.floor(totalFields * 0.4);  // Show at 40%
                 const card3Threshold = Math.floor(totalFields * 0.7);  // Show at 70%
 
-                // Animate filling fields - 3.33 seconds total
-                const intervalTime = 3333 / totalFields;
+                // Animate filling fields
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+                // Mobile: slower to accommodate scroll + delay. Desktop: fast 3.33s total
+                const intervalTime = isMobile ? 600 : (3333 / totalFields);
                 let currentField = 0;
                 let startTime = Date.now();
 
@@ -2005,8 +2007,25 @@
                     if (currentField < totalFields) {
                         const fieldElement = document.getElementById(`field-${currentField}`);
                         const value = fieldElement.getAttribute('data-value');
-                        fieldElement.querySelector('p').textContent = value;
-                        fieldElement.classList.add('filled');
+
+                        if (isMobile) {
+                            // Mobile: scroll to field, show empty, then fill
+                            const fieldRect = fieldElement.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+                            const absoluteTop = fieldRect.top + window.pageYOffset;
+                            const offset = viewportHeight * 0.3; // Position at 30% from top
+                            window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+
+                            // Delay so user sees empty field before it fills
+                            setTimeout(() => {
+                                fieldElement.querySelector('p').textContent = value;
+                                fieldElement.classList.add('filled');
+                            }, 250);
+                        } else {
+                            // Desktop: fill immediately
+                            fieldElement.querySelector('p').textContent = value;
+                            fieldElement.classList.add('filled');
+                        }
 
                         // Update progress bar and counter
                         const progress = ((currentField + 1) / totalFields) * 100;
@@ -2183,16 +2202,35 @@
             const card2Threshold = Math.floor(totalFields * 0.5);
             const card3Threshold = Math.floor(totalFields * 0.7);
 
-            // Animate filling fields - 3.33 seconds total
-            const intervalTime = 3333 / totalFields;
+            // Animate filling fields
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            // Mobile: slower to accommodate scroll + delay. Desktop: fast 3.33s total
+            const intervalTime = isMobile ? 600 : (3333 / totalFields);
             let currentField = 0;
 
             const fillInterval = setInterval(() => {
                 if (currentField < totalFields) {
                     const fieldElement = document.getElementById(`field-progress-${currentField}`);
                     const value = progressNoteValues[`field-progress-${currentField}`];
-                    fieldElement.querySelector('p').textContent = value;
-                    fieldElement.classList.add('filled');
+
+                    if (isMobile) {
+                        // Mobile: scroll to field, show empty, then fill
+                        const fieldRect = fieldElement.getBoundingClientRect();
+                        const viewportHeight = window.innerHeight;
+                        const absoluteTop = fieldRect.top + window.pageYOffset;
+                        const offset = viewportHeight * 0.3; // Position at 30% from top
+                        window.scrollTo({ top: absoluteTop - offset, behavior: 'auto' });
+
+                        // Delay so user sees empty field before it fills
+                        setTimeout(() => {
+                            fieldElement.querySelector('p').textContent = value;
+                            fieldElement.classList.add('filled');
+                        }, 250);
+                    } else {
+                        // Desktop: fill immediately
+                        fieldElement.querySelector('p').textContent = value;
+                        fieldElement.classList.add('filled');
+                    }
 
                     // Update progress bar and counter
                     const progress = ((currentField + 1) / totalFields) * 100;
