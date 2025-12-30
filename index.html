@@ -2302,8 +2302,8 @@
                         element = element.offsetParent;
                     }
 
-                    // Scroll just a bit down to show the field
-                    const scrollTarget = absoluteTop - 500;
+                    // Scroll just a tiny bit down to show the field
+                    const scrollTarget = absoluteTop - 1200;
 
                     window.parent.postMessage({
                         type: "SCROLL_TO_POSITION",
@@ -2375,7 +2375,7 @@
                                 }
 
                                 // Center the button on screen
-                                const scrollTarget = absoluteTop - 300;
+                                const scrollTarget = absoluteTop - 600;
 
                                 window.parent.postMessage({
                                     type: "SCROLL_TO_POSITION",
@@ -2424,7 +2424,7 @@
                                 }
 
                                 // Center the button on screen
-                                const scrollTarget = absoluteTop - 300;
+                                const scrollTarget = absoluteTop - 600;
 
                                 window.parent.postMessage({
                                     type: "SCROLL_TO_POSITION",
