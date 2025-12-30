@@ -2083,7 +2083,7 @@
                                     }
 
                                     // Center the heading on screen (scroll higher up)
-                                    const targetScroll = absoluteTop - 600;
+                                    const targetScroll = absoluteTop - 900;
 
                                     window.parent.postMessage({
                                         type: "SCROLL_TO_POSITION",
@@ -2289,6 +2289,21 @@
             }
             progressContainer.classList.add('active');
 
+            // Scroll to first field on mobile
+            if (isMobile && window.self !== window.top) {
+                const firstField = document.getElementById('field-progress-0');
+                if (firstField) {
+                    const rect = firstField.getBoundingClientRect();
+                    const absoluteTop = rect.top + window.pageYOffset;
+                    const scrollTarget = absoluteTop - 300;
+
+                    window.parent.postMessage({
+                        type: "SCROLL_TO_POSITION",
+                        scrollTo: scrollTarget
+                    }, "https://www.perspectiveshealth.ai");
+                }
+            }
+
             // Start audio animation
             const audioAnimation = animateAudioDotsProgress();
 
@@ -2340,6 +2355,21 @@
                             }, "https://www.perspectiveshealth.ai");
                         }, 100);
 
+                        // Scroll to CTA button after completion
+                        setTimeout(() => {
+                            const ctaSection = document.querySelector('.demo-cta-section');
+                            if (ctaSection && window.self !== window.top) {
+                                const rect = ctaSection.getBoundingClientRect();
+                                const absoluteTop = rect.top + window.pageYOffset;
+                                const scrollTarget = absoluteTop - (window.innerHeight / 2) + 50;
+
+                                window.parent.postMessage({
+                                    type: "SCROLL_TO_POSITION",
+                                    scrollTo: scrollTarget
+                                }, "https://www.perspectiveshealth.ai");
+                            }
+                        }, 500);
+
                         return;
                     }
 
@@ -2367,8 +2397,20 @@
                         clearInterval(statusInterval);
                         demoRunning = false;
 
-                        // Don't scroll after completion - value props already visible
-                        // User can scroll freely to see CTA button if needed
+                        // Scroll to CTA button after completion
+                        setTimeout(() => {
+                            const ctaSection = document.querySelector('.demo-cta-section');
+                            if (ctaSection && window.self !== window.top) {
+                                const rect = ctaSection.getBoundingClientRect();
+                                const absoluteTop = rect.top + window.pageYOffset;
+                                const scrollTarget = absoluteTop - (window.innerHeight / 2) + 50;
+
+                                window.parent.postMessage({
+                                    type: "SCROLL_TO_POSITION",
+                                    scrollTo: scrollTarget
+                                }, "https://www.perspectiveshealth.ai");
+                            }
+                        }, 500);
 
                         return;
                     }
