@@ -2290,6 +2290,7 @@
             progressContainer.classList.add('active');
 
             // Scroll to first field on mobile
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
             if (isMobile && window.self !== window.top) {
                 const firstField = document.getElementById('field-progress-0');
                 if (firstField) {
@@ -2332,7 +2333,6 @@
             const card3Threshold = Math.floor(totalFields * 0.7);
 
             // Animate filling fields
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
             let currentField = 0;
 
             // Mobile: process fields SEQUENTIALLY (one completes before next starts)
