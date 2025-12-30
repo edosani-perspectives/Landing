@@ -1484,44 +1484,9 @@
             background: #5f26a3;
         }
 
-        /* Debug panel - mobile only */
-        .debug-panel {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.9);
-            color: #0f0;
-            padding: 8px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 9px;
-            z-index: 99999;
-            max-width: 250px;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .debug-panel {
-                display: block;
-            }
-        }
-
-        .debug-panel div {
-            margin: 2px 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
     </style>
 </head>
 <body>
-    <!-- Debug Panel - Mobile Only -->
-    <div class="debug-panel" id="debug-panel">
-        <div style="color: #fff; font-weight: bold;">SCROLL DEBUG</div>
-        <div id="debug-log"></div>
-    </div>
     <!-- Demo Section -->
     <section id="demo" class="demo-section">
         <div class="demo-section-header">
@@ -1862,22 +1827,6 @@
         // Store timeout ID to clear ASAM scroll if needed
         let asamScrollTimeout = null;
 
-        // Debug logger function
-        let debugMessages = [];
-        function debugLog(message, value) {
-            const timestamp = new Date().toLocaleTimeString();
-            const logMsg = `${timestamp}: ${message}${value !== undefined ? ' ' + value : ''}`;
-            console.log(logMsg);
-
-            debugMessages.push(logMsg);
-            if (debugMessages.length > 10) debugMessages.shift(); // Keep last 10
-
-            const debugLogEl = document.getElementById('debug-log');
-            if (debugLogEl) {
-                debugLogEl.innerHTML = debugMessages.map(msg => `<div>${msg}</div>`).join('');
-            }
-        }
-
         // Patient transcript data
         const transcript = [
             { speaker: 'clinician', text: "Thanks for coming in today. Can you tell me about what brings you here?" },
@@ -2099,12 +2048,10 @@
                                 progressCurrent.textContent = i + 1;
                             }
 
-                            // TEMPORARILY DISABLED: Testing if value cards cause scroll lock
-                            /*
+                            // Show all value cards
                             document.getElementById('value-card-1').classList.add('show');
                             document.getElementById('value-card-2').classList.add('show');
                             document.getElementById('value-card-3').classList.add('show');
-                            */
 
                             // Update timer
                             const elapsed = Math.round((Date.now() - startTime) / 1000);
@@ -2112,30 +2059,21 @@
 
                             clearInterval(audioAnimation);
                             demoRunning = false;
-                            debugLog('ASAM: Done (no cards)');
 
-                            // TEMPORARILY DISABLED: Testing if resize messages cause scroll lock
-                            /*
+                            // Notify Framer that content height changed (value cards appeared)
                             setTimeout(() => {
                                 window.parent.postMessage({
                                     type: "IFRAME_RESIZE"
                                 }, "https://www.perspectiveshealth.ai");
-                                debugLog('Resize: Sent (ASAM)');
                             }, 100);
-                            */
-                            debugLog('Resize: DISABLED (ASAM)');
 
-                            // TEMPORARILY DISABLED: Testing if this scroll causes the lock
-                            // The scroll was barely moving (using iframe's pageYOffset which is ~0)
-                            // and may be corrupting Framer's scroll state
-                            /*
+                            // Scroll to Progress Notes button after completion
                             asamScrollTimeout = setTimeout(() => {
                                 const isInIframe = window.self !== window.top;
                                 if (isInIframe) {
                                     // Calculate scroll position: current position + ~1000px to reach Progress Notes
                                     const currentScroll = window.pageYOffset;
                                     const targetScroll = currentScroll + 1000;
-                                    debugLog('ASAM→Prog:', targetScroll);
                                     window.parent.postMessage({
                                         type: "SCROLL_TO_POSITION",
                                         scrollTo: targetScroll
@@ -2148,8 +2086,6 @@
                                 }
                                 asamScrollTimeout = null;
                             }, 1000);
-                            */
-                            asamScrollTimeout = null;  // Clear the timeout variable
 
                             return;
                         }
@@ -2173,8 +2109,7 @@
                             const elapsed = Math.round((Date.now() - startTime) / 1000);
                             document.getElementById('timer').textContent = elapsed;
 
-                            // TEMPORARILY DISABLED: Testing if value cards cause scroll lock
-                            /*
+                            // Show value cards
                             if (currentField === card1Threshold) {
                                 document.getElementById('value-card-1').classList.add('show');
                             }
@@ -2184,7 +2119,6 @@
                             if (currentField === card3Threshold) {
                                 document.getElementById('value-card-3').classList.add('show');
                             }
-                            */
 
                             // Move to next field
                             currentField++;
@@ -2307,11 +2241,8 @@
 
         // Start progress note demo
         function startProgressDemo() {
-            debugLog('Prog: Start');
-
             // Cancel any pending ASAM scroll
             if (asamScrollTimeout) {
-                debugLog('Prog: Cleared');
                 clearTimeout(asamScrollTimeout);
                 asamScrollTimeout = null;
             }
@@ -2379,21 +2310,16 @@
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
                         demoRunning = false;
-                        debugLog('Prog: Done');
                         document.getElementById('value-card-progress-1').classList.add('show');
                         document.getElementById('value-card-progress-2').classList.add('show');
                         document.getElementById('value-card-progress-3').classList.add('show');
 
-                        // TEMPORARILY DISABLED: Testing if resize messages cause scroll lock
-                        /*
+                        // Force Framer to recalculate iframe height after content changes
                         setTimeout(() => {
                             window.parent.postMessage({
                                 type: "IFRAME_RESIZE"
                             }, "https://www.perspectiveshealth.ai");
-                            debugLog('Resize: Sent');
                         }, 100);
-                        */
-                        debugLog('Resize: DISABLED (Prog)');
 
                         return;
                     }
@@ -2421,7 +2347,6 @@
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
                         demoRunning = false;
-                        debugLog('Prog: Done (instant)');
 
                         // Don't scroll after completion - value props already visible
                         // User can scroll freely to see CTA button if needed
