@@ -2082,8 +2082,8 @@
                                         element = element.offsetParent;
                                     }
 
-                                    // Center the heading on screen
-                                    const targetScroll = absoluteTop - 200;
+                                    // Center the heading on screen (scroll higher up)
+                                    const targetScroll = absoluteTop - 600;
 
                                     window.parent.postMessage({
                                         type: "SCROLL_TO_POSITION",
