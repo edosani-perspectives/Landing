@@ -2112,21 +2112,17 @@
 
                             // Scroll to Progress Notes button after completion
                             asamScrollTimeout = setTimeout(() => {
-                                const progressSection = document.getElementById('progress-demo');
-                                if (progressSection) {
-                                    const isInIframe = window.self !== window.top;
-                                    if (isInIframe) {
-                                        const sectionRect = progressSection.getBoundingClientRect();
-                                        const absoluteTop = sectionRect.top + window.pageYOffset;
-                                        // Use larger offset to keep heading visible
-                                        const targetScroll = absoluteTop - 1200;
-                                        const scrollPosition = Math.max(0, targetScroll);
-                                        debugLog('ASAM→Prog:', scrollPosition);
-                                        window.parent.postMessage({
-                                            type: "SCROLL_TO_POSITION",
-                                            scrollTo: scrollPosition
-                                        }, "https://www.perspectiveshealth.ai");
-                                    } else {
+                                const isInIframe = window.self !== window.top;
+                                if (isInIframe) {
+                                    // Use relative scroll instead of absolute position to avoid coordinate issues
+                                    debugLog('ASAM→Prog: +900px');
+                                    window.parent.postMessage({
+                                        type: "PARENT_SCROLL",
+                                        deltaY: 900
+                                    }, "https://www.perspectiveshealth.ai");
+                                } else {
+                                    const progressSection = document.getElementById('progress-demo');
+                                    if (progressSection) {
                                         progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                     }
                                 }
