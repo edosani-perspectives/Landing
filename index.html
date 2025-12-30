@@ -2110,13 +2110,16 @@
                             demoRunning = false;
                             debugLog('ASAM: Done');
 
-                            // Notify Framer that content height changed (value cards appeared)
+                            // TEMPORARILY DISABLED: Testing if resize messages cause scroll lock
+                            /*
                             setTimeout(() => {
                                 window.parent.postMessage({
                                     type: "IFRAME_RESIZE"
                                 }, "https://www.perspectiveshealth.ai");
                                 debugLog('Resize: Sent (ASAM)');
                             }, 100);
+                            */
+                            debugLog('Resize: DISABLED (ASAM)');
 
                             // TEMPORARILY DISABLED: Testing if this scroll causes the lock
                             // The scroll was barely moving (using iframe's pageYOffset which is ~0)
@@ -2373,13 +2376,16 @@
                         document.getElementById('value-card-progress-2').classList.add('show');
                         document.getElementById('value-card-progress-3').classList.add('show');
 
-                        // Force Framer to recalculate iframe height after content changes
+                        // TEMPORARILY DISABLED: Testing if resize messages cause scroll lock
+                        /*
                         setTimeout(() => {
                             window.parent.postMessage({
                                 type: "IFRAME_RESIZE"
                             }, "https://www.perspectiveshealth.ai");
                             debugLog('Resize: Sent');
                         }, 100);
+                        */
+                        debugLog('Resize: DISABLED (Prog)');
 
                         return;
                     }
