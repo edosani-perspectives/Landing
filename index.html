@@ -2110,6 +2110,14 @@
                             demoRunning = false;
                             debugLog('ASAM: Done');
 
+                            // Notify Framer that content height changed (value cards appeared)
+                            setTimeout(() => {
+                                window.parent.postMessage({
+                                    type: "IFRAME_RESIZE"
+                                }, "https://www.perspectiveshealth.ai");
+                                debugLog('Resize: Sent (ASAM)');
+                            }, 100);
+
                             // Scroll to Progress Notes button after completion
                             asamScrollTimeout = setTimeout(() => {
                                 const isInIframe = window.self !== window.top;
@@ -2377,6 +2385,15 @@
                         document.getElementById('value-card-progress-1').classList.add('show');
                         document.getElementById('value-card-progress-2').classList.add('show');
                         document.getElementById('value-card-progress-3').classList.add('show');
+
+                        // Force Framer to recalculate iframe height after content changes
+                        setTimeout(() => {
+                            window.parent.postMessage({
+                                type: "IFRAME_RESIZE"
+                            }, "https://www.perspectiveshealth.ai");
+                            debugLog('Resize: Sent');
+                        }, 100);
+
                         return;
                     }
 
