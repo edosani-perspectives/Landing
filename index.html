@@ -2067,22 +2067,26 @@
                                 }, "https://www.perspectiveshealth.ai");
                             }, 100);
 
-                            // Scroll to Progress Notes button after completion
+                            // Scroll to Progress Notes section after completion
                             asamScrollTimeout = setTimeout(() => {
+                                const progressSection = document.getElementById('progress-demo');
+                                if (!progressSection) return;
+
                                 const isInIframe = window.self !== window.top;
                                 if (isInIframe) {
-                                    // Calculate scroll position: current position + ~1000px to reach Progress Notes
-                                    const currentScroll = window.pageYOffset;
-                                    const targetScroll = currentScroll + 1000;
+                                    // Get Progress Notes section position
+                                    const rect = progressSection.getBoundingClientRect();
+                                    const absoluteTop = rect.top + window.pageYOffset;
+
+                                    // Center it on screen (subtract half viewport height)
+                                    const targetScroll = absoluteTop - (window.innerHeight / 3);
+
                                     window.parent.postMessage({
                                         type: "SCROLL_TO_POSITION",
                                         scrollTo: targetScroll
                                     }, "https://www.perspectiveshealth.ai");
                                 } else {
-                                    const progressSection = document.getElementById('progress-demo');
-                                    if (progressSection) {
-                                        progressSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                    }
+                                    progressSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                 }
                                 asamScrollTimeout = null;
                             }, 1000);
