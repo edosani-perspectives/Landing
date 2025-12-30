@@ -1489,14 +1489,16 @@
             position: fixed;
             top: 10px;
             right: 10px;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             color: #0f0;
             padding: 8px;
             border-radius: 4px;
             font-family: monospace;
-            font-size: 10px;
+            font-size: 9px;
             z-index: 99999;
-            max-width: 200px;
+            max-width: 250px;
+            max-height: 200px;
+            overflow-y: auto;
             display: none;
         }
 
@@ -1868,7 +1870,7 @@
             console.log(logMsg);
 
             debugMessages.push(logMsg);
-            if (debugMessages.length > 5) debugMessages.shift(); // Keep last 5
+            if (debugMessages.length > 10) debugMessages.shift(); // Keep last 10
 
             const debugLogEl = document.getElementById('debug-log');
             if (debugLogEl) {
@@ -2106,6 +2108,7 @@
 
                             clearInterval(audioAnimation);
                             demoRunning = false;
+                            debugLog('ASAM: Done');
 
                             // Scroll to Progress Notes button after completion
                             asamScrollTimeout = setTimeout(() => {
@@ -2374,6 +2377,7 @@
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
                         demoRunning = false;
+                        debugLog('Prog: Done');
                         document.getElementById('value-card-progress-1').classList.add('show');
                         document.getElementById('value-card-progress-2').classList.add('show');
                         document.getElementById('value-card-progress-3').classList.add('show');
@@ -2403,6 +2407,7 @@
                         clearInterval(audioAnimation);
                         clearInterval(statusInterval);
                         demoRunning = false;
+                        debugLog('Prog: Done (instant)');
 
                         // Don't scroll after completion - value props already visible
                         // User can scroll freely to see CTA button if needed
