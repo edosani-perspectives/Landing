@@ -2074,12 +2074,16 @@
 
                                 const isInIframe = window.self !== window.top;
                                 if (isInIframe) {
-                                    // Get Progress Notes section position
-                                    const rect = progressSection.getBoundingClientRect();
-                                    const absoluteTop = rect.top + window.pageYOffset;
+                                    // Get absolute position from document top
+                                    let absoluteTop = 0;
+                                    let element = progressSection;
+                                    while (element) {
+                                        absoluteTop += element.offsetTop;
+                                        element = element.offsetParent;
+                                    }
 
-                                    // Center it on screen (subtract half viewport height)
-                                    const targetScroll = absoluteTop - (window.innerHeight / 3);
+                                    // Center the heading on screen
+                                    const targetScroll = absoluteTop - 200;
 
                                     window.parent.postMessage({
                                         type: "SCROLL_TO_POSITION",
@@ -2107,7 +2111,7 @@
                             scrollTo: scrollTarget
                         }, "https://www.perspectiveshealth.ai");
 
-                        // Wait for scroll, then wait for field to be visible, then fill
+                        // Wait for scroll, then wait for field to be visible, then fill (75% faster)
                         setTimeout(() => {
                             setTimeout(() => {
                                 // Fill the field
@@ -2136,9 +2140,9 @@
 
                                 // Move to next field
                                 currentField++;
-                                setTimeout(processNextField, 500);
-                            }, 400);
-                        }, 200);
+                                setTimeout(processNextField, 125);
+                            }, 100);
+                        }, 50);
                     };
 
                     // Start processing
