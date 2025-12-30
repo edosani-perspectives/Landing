@@ -2097,10 +2097,12 @@
                                 progressCurrent.textContent = i + 1;
                             }
 
-                            // Show all value cards
+                            // TEMPORARILY DISABLED: Testing if value cards cause scroll lock
+                            /*
                             document.getElementById('value-card-1').classList.add('show');
                             document.getElementById('value-card-2').classList.add('show');
                             document.getElementById('value-card-3').classList.add('show');
+                            */
 
                             // Update timer
                             const elapsed = Math.round((Date.now() - startTime) / 1000);
@@ -2108,7 +2110,7 @@
 
                             clearInterval(audioAnimation);
                             demoRunning = false;
-                            debugLog('ASAM: Done');
+                            debugLog('ASAM: Done (no cards)');
 
                             // TEMPORARILY DISABLED: Testing if resize messages cause scroll lock
                             /*
@@ -2169,7 +2171,8 @@
                             const elapsed = Math.round((Date.now() - startTime) / 1000);
                             document.getElementById('timer').textContent = elapsed;
 
-                            // Show value cards
+                            // TEMPORARILY DISABLED: Testing if value cards cause scroll lock
+                            /*
                             if (currentField === card1Threshold) {
                                 document.getElementById('value-card-1').classList.add('show');
                             }
@@ -2179,6 +2182,7 @@
                             if (currentField === card3Threshold) {
                                 document.getElementById('value-card-3').classList.add('show');
                             }
+                            */
 
                             // Move to next field
                             currentField++;
