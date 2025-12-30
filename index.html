@@ -2122,11 +2122,13 @@
                             asamScrollTimeout = setTimeout(() => {
                                 const isInIframe = window.self !== window.top;
                                 if (isInIframe) {
-                                    // Use relative scroll instead of absolute position to avoid coordinate issues
-                                    debugLog('ASAM→Prog: +900px');
+                                    // Calculate scroll position: current position + ~1000px to reach Progress Notes
+                                    const currentScroll = window.pageYOffset;
+                                    const targetScroll = currentScroll + 1000;
+                                    debugLog('ASAM→Prog:', targetScroll);
                                     window.parent.postMessage({
-                                        type: "PARENT_SCROLL",
-                                        deltaY: 900
+                                        type: "SCROLL_TO_POSITION",
+                                        scrollTo: targetScroll
                                     }, "https://www.perspectiveshealth.ai");
                                 } else {
                                     const progressSection = document.getElementById('progress-demo');
