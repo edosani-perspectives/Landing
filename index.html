@@ -2097,37 +2097,48 @@
                         const fieldElement = document.getElementById(`field-${currentField}`);
                         const value = fieldElement.getAttribute('data-value');
 
-                        // TEMPORARILY DISABLED: Testing if field scrolling causes lock
-                        // No scrolling - just fill in place like Progress Notes
+                        // Scroll to field first
+                        const rect = fieldElement.getBoundingClientRect();
+                        const absoluteTop = rect.top + window.pageYOffset;
+                        const scrollTarget = absoluteTop - 400;
+
+                        window.parent.postMessage({
+                            type: "SCROLL_TO_POSITION",
+                            scrollTo: scrollTarget
+                        }, "https://www.perspectiveshealth.ai");
+
+                        // Wait for scroll, then wait for field to be visible, then fill
                         setTimeout(() => {
-                            // Fill the field
-                            fieldElement.querySelector('p').textContent = value;
-                            fieldElement.classList.add('filled');
+                            setTimeout(() => {
+                                // Fill the field
+                                fieldElement.querySelector('p').textContent = value;
+                                fieldElement.classList.add('filled');
 
-                            // Update progress bar and counter
-                            const progress = ((currentField + 1) / totalFields) * 100;
-                            progressBar.style.width = progress + '%';
-                            progressCurrent.textContent = currentField + 1;
+                                // Update progress bar and counter
+                                const progress = ((currentField + 1) / totalFields) * 100;
+                                progressBar.style.width = progress + '%';
+                                progressCurrent.textContent = currentField + 1;
 
-                            // Update timer
-                            const elapsed = Math.round((Date.now() - startTime) / 1000);
-                            document.getElementById('timer').textContent = elapsed;
+                                // Update timer
+                                const elapsed = Math.round((Date.now() - startTime) / 1000);
+                                document.getElementById('timer').textContent = elapsed;
 
-                            // Show value cards
-                            if (currentField === card1Threshold) {
-                                document.getElementById('value-card-1').classList.add('show');
-                            }
-                            if (currentField === card2Threshold) {
-                                document.getElementById('value-card-2').classList.add('show');
-                            }
-                            if (currentField === card3Threshold) {
-                                document.getElementById('value-card-3').classList.add('show');
-                            }
+                                // Show value cards
+                                if (currentField === card1Threshold) {
+                                    document.getElementById('value-card-1').classList.add('show');
+                                }
+                                if (currentField === card2Threshold) {
+                                    document.getElementById('value-card-2').classList.add('show');
+                                }
+                                if (currentField === card3Threshold) {
+                                    document.getElementById('value-card-3').classList.add('show');
+                                }
 
-                            // Move to next field
-                            currentField++;
-                            setTimeout(processNextField, 500);
-                        }, 400);
+                                // Move to next field
+                                currentField++;
+                                setTimeout(processNextField, 500);
+                            }, 400);
+                        }, 200);
                     };
 
                     // Start processing
