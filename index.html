@@ -2118,7 +2118,10 @@
                                 debugLog('Resize: Sent (ASAM)');
                             }, 100);
 
-                            // Scroll to Progress Notes button after completion
+                            // TEMPORARILY DISABLED: Testing if this scroll causes the lock
+                            // The scroll was barely moving (using iframe's pageYOffset which is ~0)
+                            // and may be corrupting Framer's scroll state
+                            /*
                             asamScrollTimeout = setTimeout(() => {
                                 const isInIframe = window.self !== window.top;
                                 if (isInIframe) {
@@ -2138,6 +2141,8 @@
                                 }
                                 asamScrollTimeout = null;
                             }, 1000);
+                            */
+                            asamScrollTimeout = null;  // Clear the timeout variable
 
                             return;
                         }
